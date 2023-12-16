@@ -4,7 +4,58 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./styles/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/x-icon" href="/assets/svg/logo-icon.svg" />
     <title>Les petits plats</title>
   </head>
-  <body></body>
+  <body>
+    <header>
+      <a class="logo-container" href="/">
+        <img src="/assets/svg/logo-text.svg" class="logo-text" alt="logo" />
+        <img
+          src="/assets/svg/logo-icon.svg"
+          class="logo-icon"
+          aria-hidden="true"
+          alt=""
+        />
+      </a>
+    </header>
+    <main>
+      <section class="main-banner">
+        <div class="main-banner-content">
+          <h2>
+            Cherchez parmi plus de 1500 recettes du quotidien, simples et
+            délicieuses
+          </h2>
+          <div class="searchbar-container">
+            <input
+              class="searchbar-input"
+              type="text"
+              placeholder="Rechercher une recette, un ingredient..."
+            />
+            <button type="button" class="search-btn" aria-label="Rechercher">
+              <img src="/assets/svg/search-icon.svg" aria-hidden="true" />
+            </button>
+          </div>
+        </div>
+      </section>
+      <section>
+        <div>
+          <div>
+            <div class="dropdown-menu">Ingrédients</div>
+            <div class="dropdown-menu">Appareils</div>
+            <div class="dropdown-menu">Ustensiles</div>
+          </div>
+          <div>
+            <span>03 recettes</span>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
 </html>

@@ -7,6 +7,7 @@
   --main-neutral-color-300: #fff;
 
   /*Fonts sizes*/
+  --font-xs: 0.75rem;
   --font-sm: 0.875rem;
   --font-default: 1rem;
   --font-lg: 1.125rem;
@@ -217,6 +218,76 @@ main {
 .selected-ingredient {
   background-color: var(--main-color);
 }
+
+.recipe-card {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  background-color: var(--main-neutral-color-300);
+  border-radius: var(--border-radius-md);
+}
+
+.recipe-card img {
+  width: 100%;
+  border-top-right-radius: var(--border-radius-md);
+  border-top-left-radius: var(--border-radius-md);
+  object-fit: cover;
+  aspect-ratio: 16/9;
+}
+
+.recipe {
+  width: 100%;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.recipe-title {
+  color: var(--main-neutral-color-50);
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: var(--font-lg);
+}
+
+.recipe-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  font-size: var(--font-xs);
+}
+.recipe-subtitle {
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--main-neutral-color-100);
+  letter-spacing: 0.025rem;
+}
+.recipe-ingredients {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-row-gap: 1rem;
+}
+
+.recipe-ingredient-name {
+  font-weight: 500;
+}
+
+.recipe-ingredient-quantity {
+  display: block;
+  color: var(--main-neutral-color-100);
+}
+
+.recipe-time {
+  display: block;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  padding: 4px 10px;
+  border-radius: var(--border-radius-md);
+  background-color: var(--main-color);
+  font-size: var(--border-radius-sm);
+}
+
 @media screen and (min-width: 600px) {
   header {
     padding: 2rem;
@@ -236,6 +307,9 @@ main {
 
   .dropdown-menus-container {
     flex-direction: row;
+  }
+  .recipe {
+    padding: 1.5rem;
   }
 }
 

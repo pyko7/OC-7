@@ -1,4 +1,7 @@
-const recipes = [
+/**
+ * @param {Object[]} recipes Array of recipes
+ */
+export const recipes = [
   {
     id: 1,
     image: "Recette01.jpg",

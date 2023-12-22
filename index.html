@@ -35,10 +35,16 @@
           <div class="searchbar-container">
             <input
               class="searchbar-input"
+              id="search-input"
               type="text"
               placeholder="Rechercher une recette, un ingredient..."
             />
-            <button type="button" class="search-btn" aria-label="Rechercher">
+            <button
+              type="button"
+              class="search-btn"
+              id="search-btn"
+              aria-label="Rechercher"
+            >
               <img src="/assets/svg/search-icon.svg" aria-hidden="true" />
             </button>
           </div>
@@ -97,9 +103,9 @@
               </div>
             </div>
           </div>
-          <span class="recipes-number">03 recettes</span>
+          <span class="recipes-number" id="recipes-number"></span>
         </div>
-        <div class="cards-container"></div>
+        <div class="cards-container" id="cards-container"></div>
       </section>
     </main>
     <script type="module" src="/scripts/index.js"></script>

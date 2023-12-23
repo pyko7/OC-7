@@ -26,24 +26,35 @@ export default class Recipe {
     const recipeCard = document.createElement("div");
     const recipeContent = document.createElement("div");
     const recipeIngredients = document.createElement("div");
+    const recipeTime = document.createElement("span");
+    const recipeImg = document.createElement("img");
+    const recipeContainer = document.createElement("div");
+    const recipeTitle = document.createElement("span");
+    const recipeRecipeSubtitle = document.createElement("span");
+    const recipeIngredientsSubtitle = document.createElement("span");
+    const recipeDescription = document.createElement("p");
 
     recipeCard.classList.add("recipe-card");
     recipeContent.classList.add("recipe-content");
     recipeIngredients.classList.add("recipe-ingredients");
-    recipeCard.setAttribute("id", this.id);
-    recipeCard.innerHTML = `
-    <span class="recipe-time">${this.time}min</span>
-    <img src='../../../assets/recipes/${this.image}' alt=${this.name}/>
-    <div class="recipe">
-        <span class="recipe-title">${this.name}</span>
-        <div class="recipe-content">
-            <span class="recipe-subtitle">recette</span>
-        <p class="recipe-description">${this.description}</p>
-    </div>
-    `;
+    recipeTime.classList.add("recipe-time");
+    recipeContainer.classList.add("recipe");
+    recipeTitle.classList.add("recipe-title");
+    recipeRecipeSubtitle.classList.add("recipe-subtitle");
+    recipeIngredientsSubtitle.classList.add("recipe-subtitle");
+    recipeDescription.classList.add("recipe-description");
 
-    recipeContent.innerHTML = `<span class="recipe-subtitle" id="recipe-subtitle-ingredients">ingrédients</span>
-    `;
+    recipeCard.setAttribute("id", this.id);
+    recipeIngredientsSubtitle.setAttribute("id", "recipe-subtitle-ingredients");
+    recipeImg.setAttribute("src", `../../../assets/recipes/${this.image}`);
+    recipeImg.setAttribute("alt", this.name);
+
+    recipeTime.textContent = `${this.time}min`;
+    recipeTitle.textContent = this.name;
+    recipeRecipeSubtitle.textContent = "recette";
+    recipeIngredientsSubtitle.textContent = "ingrédients";
+    recipeDescription.textContent = this.description;
+
     this.ingredients.forEach((ingredient) => {
       recipeIngredients.innerHTML += `
                 <div>
@@ -56,9 +67,17 @@ export default class Recipe {
                 </div>
                 `;
     });
-    card.appendChild(recipeCard);
-    recipeCard.appendChild(recipeContent);
+
+    recipeContent.appendChild(recipeRecipeSubtitle);
+    recipeContent.appendChild(recipeDescription);
+    recipeContent.appendChild(recipeIngredientsSubtitle);
     recipeContent.appendChild(recipeIngredients);
+    recipeContainer.appendChild(recipeTitle);
+    recipeContainer.appendChild(recipeContent);
+    recipeCard.appendChild(recipeTime);
+    recipeCard.appendChild(recipeImg);
+    recipeCard.appendChild(recipeContainer);
+    card.appendChild(recipeCard);
   }
 
   titleContains(value) {

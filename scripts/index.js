@@ -8,8 +8,13 @@ const recipeClasses = [];
 
 const displayRecipesNumber = (recipesList) => {
   const recipesNumber = document.getElementById("recipes-number");
-  const recipeWording = recipesList.length > 1 ? "recettes" : "recette";
-  recipesNumber.textContent = `${recipesList.length} ${recipeWording}`;
+  const isLessThanTen = recipesList.length < 10;
+  const isGreaterThanOne = recipesList.length > 1;
+  const recipeWording = isGreaterThanOne ? "recettes" : "recette";
+  const recipesValue = isLessThanTen
+    ? `0${recipesList.length}`
+    : recipesList.length;
+  recipesNumber.textContent = `${recipesValue} ${recipeWording}`;
 };
 
 const init = () => {

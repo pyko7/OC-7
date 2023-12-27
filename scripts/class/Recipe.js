@@ -89,17 +89,16 @@ export default class Recipe {
       .includes(value.toLowerCase().trim());
   }
   ingredientsContains(value) {
-    let isIngredientsContained = [];
+    let isIngredientsContained = false;
     this.ingredients.forEach((ingredient) => {
-      const currentIngredientIsContained = ingredient.ingredient
-        .toLocaleLowerCase()
-        .includes(value.toLowerCase().trim());
-      if (currentIngredientIsContained) {
-        console.log(currentIngredientIsContained, ingredient.ingredient);
+      if (
+        ingredient.ingredient
+          .toLocaleLowerCase()
+          .includes(value.toLowerCase().trim())
+      ) {
+        isIngredientsContained = true;
       }
-
-      isIngredientsContained.push(currentIngredientIsContained);
     });
-    return isIngredientsContained.includes(true);
+    return isIngredientsContained;
   }
 }

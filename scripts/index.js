@@ -16,6 +16,7 @@ const ustensilsDropdownMenuContainer = document.getElementById(
 );
 
 const recipeClasses = [];
+let filteredRecipes = recipes;
 
 const displayRecipesNumber = (recipesList) => {
   const recipesNumber = document.getElementById("recipes-number");
@@ -63,7 +64,7 @@ searchBtn.addEventListener("click", (e) => {
   if (searchInput.value.length < 3 && searchInput.value.length !== 0) {
     return;
   } else {
-    const filteredRecipes = searchRecipes(searchInput.value);
+    filteredRecipes = searchRecipes(searchInput.value);
     recipeCardsContainer.innerHTML = "";
     filteredRecipes.forEach((filteredRecipe) => {
       const recipeClass = new Recipe(
@@ -86,22 +87,26 @@ searchBtn.addEventListener("click", (e) => {
 
 ingredientsDropdownMenuContainer.addEventListener("click", (e) => {
   const dropdownMenu = new DropdownMenu(
+    filteredRecipes,
     ingredientsDropdownMenuContainer,
     "ingredients"
   );
-
   dropdownMenu.handleDropdownMenu();
 });
+
 applianceDropdownMenuContainer.addEventListener("click", (e) => {
   const dropdownMenu = new DropdownMenu(
+    filteredRecipes,
     applianceDropdownMenuContainer,
     "appliance"
   );
 
   dropdownMenu.handleDropdownMenu();
 });
+
 ustensilsDropdownMenuContainer.addEventListener("click", (e) => {
   const dropdownMenu = new DropdownMenu(
+    filteredRecipes,
     ustensilsDropdownMenuContainer,
     "ustensils"
   );

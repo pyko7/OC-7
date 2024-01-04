@@ -163,8 +163,10 @@ main {
 }
 
 .dropdown-menu {
-  width: fit-content;
+  width: 100%;
+  max-width: 250px;
   height: fit-content;
+  max-height: 300px;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -172,6 +174,7 @@ main {
   background-color: var(--main-neutral-color-300);
   border-radius: var(--border-radius-sm);
   cursor: pointer;
+  overflow: scroll;
 }
 
 .dropdown-menu-header {
@@ -198,6 +201,7 @@ main {
   border-radius: var(--border-radius-xs);
 }
 .dropdown-menu-search-container input {
+  width: 100%;
   border: none;
 }
 
@@ -212,6 +216,7 @@ main {
 }
 
 .dropdown-menu-results ul {
+  margin-top: 1rem;
   list-style: none;
 }
 

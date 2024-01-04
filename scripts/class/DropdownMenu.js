@@ -1,5 +1,8 @@
+import { removeDuplicates, ucFirst } from "../utils/utils.js";
+
 export default class DropdownMenu {
-  constructor(container, name) {
+  constructor(recipes, container, name) {
+    this.recipes = recipes;
     this.container = container;
     this.name = name;
   }
@@ -10,6 +13,7 @@ export default class DropdownMenu {
     const searchButton = document.createElement("button");
     const searchButtonIcon = document.createElement("img");
     const searchResultsContainer = document.createElement("div");
+    const searchResultsList = document.createElement("ul");
 
     searchContainer.classList.add("dropdown-menu-search-container");
     searchInputContainer.classList.add("dropdown-menu-search");
@@ -22,9 +26,19 @@ export default class DropdownMenu {
     searchButtonIcon.setAttribute("src", "/assets/svg/search-icon-grey.svg");
     searchButtonIcon.setAttribute("aria-hidden", true);
 
+    const searchResultsListElements = this.getDropdownMenuList();
+
+    searchResultsListElements.forEach((element) => {
+      const listElement = document.createElement("li");
+      listElement.textContent = ucFirst(element);
+      searchResultsList.appendChild(listElement);
+    });
+
     searchContainer.appendChild(searchInputContainer);
+    searchContainer.appendChild(searchResultsContainer);
     searchInputContainer.appendChild(searchInput);
     searchInputContainer.appendChild(searchButton);
+    searchResultsContainer.appendChild(searchResultsList);
     searchButton.appendChild(searchButtonIcon);
     this.container.appendChild(searchContainer);
   }
@@ -56,5 +70,26 @@ export default class DropdownMenu {
     } else {
       this.handleDropdownMenuVisibility(ingredientsResults);
     }
+  }
+
+  getDropdownMenuList() {
+    let list = [];
+    this.recipes.forEach((recipe) => {
+      if (this.name === "ingredients") {
+        recipe.ingredients.forEach((ingredient) => {
+          const recipeIngredient = ingredient.ingredient.toLowerCase().trim();
+          list.push(recipeIngredient);
+        });
+      } else if (this.name === "ustensils") {
+        recipe.ustensils.forEach((ustensil) => {
+          const recipeUstensils = ustensil.toLowerCase().trim();
+          list.push(recipeUstensils);
+        });
+      } else {
+        list.push(recipe.appliance);
+      }
+    });
+    list = removeDuplicates(list);
+    return list;
   }
 }

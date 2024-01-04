@@ -18,6 +18,10 @@ const ustensilsDropdownMenuContainer = document.getElementById(
 const recipeClasses = [];
 let filteredRecipes = recipes;
 
+/**
+ * @description displays the number of recipes
+ * @param {Object} recipesList list of recipes
+ */
 const displayRecipesNumber = (recipesList) => {
   const recipesNumber = document.getElementById("recipes-number");
   const isGreaterThanOne = recipesList.length > 1;
@@ -26,6 +30,9 @@ const displayRecipesNumber = (recipesList) => {
   recipesNumber.textContent = `${recipesValue} ${recipeWording}`;
 };
 
+/**
+ * @description display default recipes
+ */
 const init = () => {
   recipes.forEach((recipe) => {
     const recipeClass = new Recipe(
@@ -45,6 +52,11 @@ const init = () => {
   displayRecipesNumber(recipes);
 };
 
+/**
+ *
+ * @param {string} searchValue input value
+ * @returns {Object} recipes containing input's value
+ */
 const searchRecipes = (searchValue) => {
   let results = [];
   recipeClasses.forEach((recipe) => {
@@ -60,7 +72,11 @@ const searchRecipes = (searchValue) => {
   return results;
 };
 
-searchBtn.addEventListener("click", (e) => {
+/**
+ * @description create a recipe instance to create new HTML Elements for the search results
+ *
+ */
+const handleMainSearch = () => {
   if (searchInput.value.length < 3 && searchInput.value.length !== 0) {
     return;
   } else {
@@ -81,8 +97,12 @@ searchBtn.addEventListener("click", (e) => {
       recipeClasses.push(recipeClass);
       recipeClass.createBaseCard();
     });
-    displayRecipesNumber(filteredRecipes);
   }
+};
+
+searchBtn.addEventListener("click", (e) => {
+  handleMainSearch();
+  displayRecipesNumber(filteredRecipes);
 });
 
 ingredientsDropdownMenuContainer.addEventListener("click", (e) => {

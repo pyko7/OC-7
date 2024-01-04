@@ -1,11 +1,24 @@
 import { removeDuplicates, ucFirst } from "../utils/utils.js";
 
+/**
+ * @description Class representing a dropdown menu
+ */
 export default class DropdownMenu {
+  /**
+   *
+   * @param {Object} recipes array of recipes
+   * @param {HTMLElement} container dropdown menu container
+   * @param {string} name title of dropdown menu
+   */
   constructor(recipes, container, name) {
     this.recipes = recipes;
     this.container = container;
     this.name = name;
   }
+
+  /**
+   * @description create a DOM Element
+   */
   createBaseDropdownMenu() {
     const searchContainer = document.createElement("div");
     const searchInputContainer = document.createElement("div");
@@ -52,6 +65,10 @@ export default class DropdownMenu {
     dropdownMenu.classList.add("dropdown-menu-search-container-hidden");
   }
 
+  /**
+   * @description handle dropdown menu opening
+   * @param {HTMLElement} dropdownMenuResults
+   */
   handleDropdownMenuVisibility(dropdownMenuResults) {
     const dropdownMenuClassList = Array.from(dropdownMenuResults.classList);
     if (
@@ -63,6 +80,9 @@ export default class DropdownMenu {
     }
   }
 
+  /**
+   * @description handle if we create or display the dropdown menu
+   */
   handleDropdownMenu() {
     const ingredientsResults = document.getElementById(`${this.name}-results`);
     if (!ingredientsResults) {
@@ -72,6 +92,10 @@ export default class DropdownMenu {
     }
   }
 
+  /**
+   * @description get the displayed list in the dropdown menu
+   * @returns {Object} displayed list in the dropdown menu
+   */
   getDropdownMenuList() {
     let list = [];
     this.recipes.forEach((recipe) => {

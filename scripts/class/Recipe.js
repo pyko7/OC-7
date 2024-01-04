@@ -1,4 +1,19 @@
+/**
+ * @description Class representing a recipe
+ */
 export default class Recipe {
+  /**
+   *
+   * @param {number} id
+   * @param {string} image
+   * @param {string} name
+   * @param {number} servings
+   * @param {Object} ingredients
+   * @param {number} time
+   * @param {string} description
+   * @param {string} appliance
+   * @param {Object} ustensils
+   */
   constructor(
     id,
     image,
@@ -21,6 +36,9 @@ export default class Recipe {
     this.ustensils = ustensils;
   }
 
+  /**
+   * @description create a DOM Element
+   */
   createBaseCard() {
     const card = document.querySelector(".cards-container");
     const recipeCard = document.createElement("div");
@@ -80,14 +98,31 @@ export default class Recipe {
     card.appendChild(recipeCard);
   }
 
+  /**
+   * @description check if the title contains the searched value
+   * @param {string} value searched value
+   * @returns {boolean} true if the value in contained
+   */
   titleContains(value) {
     return this.name.toLocaleLowerCase().includes(value.toLowerCase().trim());
   }
+
+  /**
+   * @description check if the description contains the searched value
+   * @param {string} value searched value
+   * @returns {boolean} true if the value in contained
+   */
   descriptionContains(value) {
     return this.description
       .toLocaleLowerCase()
       .includes(value.toLowerCase().trim());
   }
+
+  /**
+   * @description check if the ingredients contain the searched value
+   * @param {string} value searched value
+   * @returns {boolean} true if the value in contained
+   */
   ingredientsContains(value) {
     let isIngredientsContained = false;
     this.ingredients.forEach((ingredient) => {

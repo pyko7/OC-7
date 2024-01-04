@@ -187,6 +187,9 @@ main {
   width: 100%;
   padding: 0 0.75rem;
 }
+.dropdown-menu-search-container-hidden {
+  display: none;
+}
 .dropdown-menu-search {
   width: 100%;
   display: flex;

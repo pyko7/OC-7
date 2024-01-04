@@ -31,18 +31,21 @@ export default class DropdownMenu {
 
   displayDropdownMenu() {
     const dropdownMenu = document.getElementById(`${this.name}-results`);
-    dropdownMenu.style.display = "flex";
+    dropdownMenu.classList.remove("dropdown-menu-search-container-hidden");
   }
   hideDropdownMenu() {
     const dropdownMenu = document.getElementById(`${this.name}-results`);
-    dropdownMenu.style.display = "none";
+    dropdownMenu.classList.add("dropdown-menu-search-container-hidden");
   }
 
   handleDropdownMenuVisibility(dropdownMenuResults) {
-    if (dropdownMenuResults.style.display === "flex") {
-      this.hideDropdownMenu();
-    } else {
+    const dropdownMenuClassList = Array.from(dropdownMenuResults.classList);
+    if (
+      dropdownMenuClassList.includes("dropdown-menu-search-container-hidden")
+    ) {
       this.displayDropdownMenu();
+    } else {
+      this.hideDropdownMenu();
     }
   }
 

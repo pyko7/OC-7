@@ -103,6 +103,7 @@ const handleMainSearch = () => {
 searchBtn.addEventListener("click", (e) => {
   handleMainSearch();
   displayRecipesNumber(filteredRecipes);
+  DropdownMenu.removeDropdownMenuList();
 });
 
 ingredientsDropdownMenuContainer.addEventListener("click", (e) => {

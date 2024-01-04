@@ -116,4 +116,14 @@ export default class DropdownMenu {
     list = removeDuplicates(list);
     return list;
   }
+
+  /**
+   * @description remove all results lists in dropdown menus
+   */
+  static removeDropdownMenuList() {
+    const dropdownMenus = document.querySelectorAll(
+      ".dropdown-menu-search-container"
+    );
+    dropdownMenus.forEach((menu) => menu.remove());
+  }
 }

@@ -1,9 +1,20 @@
 import { recipes } from "./utils/recipes.js";
 import Recipe from "./class/Recipe.js";
+import DropdownMenu from "./class/DropdownMenu.js";
 
 const searchInput = document.getElementById("search-input");
 const searchBtn = document.getElementById("search-btn");
 const recipeCardsContainer = document.getElementById("cards-container");
+const ingredientsDropdownMenuContainer = document.getElementById(
+  "dropdown-menu-ingredients-container"
+);
+const applianceDropdownMenuContainer = document.getElementById(
+  "dropdown-menu-appliance-container"
+);
+const ustensilsDropdownMenuContainer = document.getElementById(
+  "dropdown-menu-ustensils-container"
+);
+
 const recipeClasses = [];
 
 const displayRecipesNumber = (recipesList) => {
@@ -71,6 +82,31 @@ searchBtn.addEventListener("click", (e) => {
     });
     displayRecipesNumber(filteredRecipes);
   }
+});
+
+ingredientsDropdownMenuContainer.addEventListener("click", (e) => {
+  const dropdownMenu = new DropdownMenu(
+    ingredientsDropdownMenuContainer,
+    "ingredients"
+  );
+
+  dropdownMenu.handleDropdownMenu();
+});
+applianceDropdownMenuContainer.addEventListener("click", (e) => {
+  const dropdownMenu = new DropdownMenu(
+    applianceDropdownMenuContainer,
+    "appliance"
+  );
+
+  dropdownMenu.handleDropdownMenu();
+});
+ustensilsDropdownMenuContainer.addEventListener("click", (e) => {
+  const dropdownMenu = new DropdownMenu(
+    ustensilsDropdownMenuContainer,
+    "ustensils"
+  );
+
+  dropdownMenu.handleDropdownMenu();
 });
 
 init();

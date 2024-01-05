@@ -170,7 +170,6 @@ main {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  padding: 0.75rem 0;
   background-color: var(--main-neutral-color-300);
   border-radius: var(--border-radius-sm);
   cursor: pointer;
@@ -178,6 +177,8 @@ main {
 }
 
 .dropdown-menu-header {
+  width: 100%;
+  height: fit-content;
   padding: 0 0.75rem;
   display: flex;
   align-items: center;
@@ -367,7 +368,7 @@ main {
   }
 
   .dropdown-menu-header {
-    padding: 0 1rem;
+    padding: 0.75rem 1rem;
   }
 
   .dropdown-menus-recipes-number-container {

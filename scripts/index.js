@@ -83,19 +83,7 @@ const handleMainSearch = () => {
     filteredRecipes = searchRecipes(searchInput.value);
     recipeCardsContainer.innerHTML = "";
     filteredRecipes.forEach((filteredRecipe) => {
-      const recipeClass = new Recipe(
-        filteredRecipe.id,
-        filteredRecipe.image,
-        filteredRecipe.name,
-        filteredRecipe.servings,
-        filteredRecipe.ingredients,
-        filteredRecipe.time,
-        filteredRecipe.description,
-        filteredRecipe.appliance,
-        filteredRecipe.ustensils
-      );
-      recipeClasses.push(recipeClass);
-      recipeClass.createBaseCard();
+      filteredRecipe.createBaseCard();
     });
   }
 };

@@ -81,6 +81,17 @@ const searchRecipes = (searchValue) => {
   return results;
 };
 
+const recipesFilteredByIngredients = (selectedIngredients) => {
+  let recipesFilteredByDropdown = [];
+  filteredRecipes.forEach((filteredRecipe) => {
+    if (filteredRecipe.hasAllIngredients(selectedIngredients)) {
+      recipesFilteredByDropdown.push(filteredRecipe);
+    }
+  });
+
+  return recipesFilteredByDropdown;
+};
+
 /**
  * @description create a recipe instance to create new HTML Elements for the search results
  *
@@ -109,7 +120,36 @@ ingredientsDropdownToggleButton.addEventListener("click", (e) => {
     ingredientsDropdownMenuContainer,
     "ingredients"
   );
+
   dropdownMenu.handleDropdownMenu();
+
+  const ingredientsList = document.getElementById("ingredients-list");
+  ingredientsList.childNodes.forEach((ingredient) => {
+    ingredient.addEventListener("click", (e) => {
+      let selectedIngredients = [];
+      selectedIngredients.push(ingredient.textContent);
+      let recipesByIngredients =
+        recipesFilteredByIngredients(selectedIngredients);
+      recipeCardsContainer.innerHTML = "";
+
+      recipesByIngredients.forEach((recipe) => {
+        const recipeClass = new Recipe(
+          recipe.id,
+          recipe.image,
+          recipe.name,
+          recipe.servings,
+          recipe.ingredients,
+          recipe.time,
+          recipe.description,
+          recipe.appliance,
+          recipe.ustensils
+        );
+        recipeClasses.push(recipeClass);
+        recipeClass.createBaseCard();
+      });
+      displayRecipesNumber(recipesByIngredients);
+    });
+  });
 });
 
 appliancesDropdownToggleButton.addEventListener("click", (e) => {

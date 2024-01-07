@@ -34,6 +34,7 @@ export default class DropdownMenu {
     searchResultsContainer.classList.add("dropdown-menu-results");
 
     searchContainer.setAttribute("id", `${this.name}-results`);
+    searchResultsList.setAttribute("id", `${this.name}-list`);
     searchButton.setAttribute("aria-label", "Rechercher");
     searchButton.setAttribute("type", "button");
     searchButtonIcon.setAttribute("src", "/assets/svg/search-icon-grey.svg");

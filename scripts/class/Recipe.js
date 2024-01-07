@@ -81,7 +81,7 @@ export default class Recipe {
                   }</span>
                   <span class="recipe-ingredient-quantity">${
                     ingredient.quantity ?? ""
-                  }${ingredient.unit ?? ""}</span>
+                  } ${ingredient.unit ?? ""}</span>
                 </div>
                 `;
     });
@@ -136,4 +136,50 @@ export default class Recipe {
     });
     return isIngredientsContained;
   }
+
+  hasAllIngredients(ingredients) {
+    const totalIngredientsSelected = ingredients.length;
+    let totalIngredients = 0;
+    ingredients.forEach((ingredient) => {
+      this.ingredients.forEach((recipeIngredient) => {
+        if (
+          ingredient.toLocaleLowerCase() ===
+          recipeIngredient.ingredient.toLocaleLowerCase().trim()
+        ) {
+          totalIngredients++;
+        }
+      });
+    });
+    return totalIngredientsSelected == totalIngredients;
+  }
+  hasAllUstensils(ustensils) {
+    const totalUstensilsSelected = ustensils.length;
+    let totalUstensils = 0;
+    ustensils.forEach((ustensil) => {
+      this.ustensils.forEach((recipeUstensil) => {
+        if (
+          ustensil.toLocaleLowerCase() ===
+          recipeUstensil.toLocaleLowerCase().trim()
+        ) {
+          totalUstensils++;
+        }
+      });
+    });
+    return totalUstensilsSelected == totalUstensils;
+  }
+  // hasAllAppliances(appliances) {
+  //   const totalIngredients = ingredients.length;
+  //   let totalRecipeIngredients = 0;
+  //   ingredients.forEach((ingredient) => {
+  //     this.ingredients.forEach((recipeIngredient) => {
+  //       if (
+  //         ingredient.toLocaleLowerCase() ===
+  //         recipeIngredient.toLocaleLowerCase().trim()
+  //       ) {
+  //         totalRecipeIngredients++;
+  //       }
+  //     });
+  //   });
+  //   return totalIngredients == totalRecipeIngredients;
+  // }
 }

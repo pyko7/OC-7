@@ -46,6 +46,10 @@ const displayRecipesNumber = (recipesList) => {
   recipesNumber.textContent = `${recipesValue} ${recipeWording}`;
 };
 
+/**
+ * @description create DOM Elements and display them
+ * @param {Object} recipesList list of recipes
+ */
 const displayRecipes = (recipesList) => {
   recipeCardsContainer.innerHTML = "";
   recipesList.forEach((recipe) => {
@@ -93,6 +97,13 @@ const searchRecipes = (searchValue) => {
   return results;
 };
 
+/**
+ * @description filter recipes with dropdown menus
+ * @param {Object} selectedIngredients array of selected ingredients
+ * @param {Object} selectedUstensils array of selected ustensils
+ * @param {Object} selectedAppliances array of selected appliances
+ * @returns {Object} array of corresponding recipes
+ */
 const filteredRecipesByDropdown = (
   selectedIngredients,
   selectedUstensils,
@@ -110,6 +121,65 @@ const filteredRecipesByDropdown = (
     }
   });
   return recipesFilteredByDropdown;
+};
+
+/**
+ * @description filter recipes by ingredients and display them
+ *
+ */
+const filterRecipesByIngredients = () => {
+  const ingredientsList = document.getElementById("ingredients-list");
+  ingredientsList.childNodes.forEach((ingredient) => {
+    ingredient.addEventListener("click", (e) => {
+      selectedIngredients.push(ingredient.textContent);
+      let recipesByIngredients = filteredRecipesByDropdown(
+        selectedIngredients,
+        selectedUstensils,
+        selectedAppliances
+      );
+      displayRecipes(recipesByIngredients);
+    });
+  });
+};
+
+/**
+ * @description filter recipes by appliances and display them
+ *
+ */
+const filterRecipesByAppliances = () => {
+  const appliancesList = document.getElementById("appliance-list");
+  appliancesList.childNodes.forEach((appliance) => {
+    appliance.addEventListener("click", (e) => {
+      selectedAppliances.push(appliance.textContent);
+      let recipesByAppliances = filteredRecipesByDropdown(
+        selectedIngredients,
+        selectedUstensils,
+        selectedAppliances
+      );
+
+      displayRecipes(recipesByAppliances);
+    });
+  });
+};
+
+/**
+ * @description filter recipes by ustensils and display them
+ *
+ */
+const filterRecipesByUstensils = () => {
+  const ustensilsList = document.getElementById("ustensils-list");
+  ustensilsList.childNodes.forEach((ustensil) => {
+    ustensil.addEventListener("click", (e) => {
+      selectedUstensils.push(ustensil.textContent);
+      let recipesByUstensils = filteredRecipesByDropdown(
+        selectedIngredients,
+        selectedUstensils,
+        selectedAppliances
+      );
+
+      displayRecipes(recipesByUstensils);
+    });
+  });
 };
 
 /**
@@ -141,21 +211,8 @@ ingredientsDropdownToggleButton.addEventListener("click", (e) => {
     ingredientsDropdownMenuContainer,
     "ingredients"
   );
-
   dropdownMenu.handleDropdownMenu();
-
-  const ingredientsList = document.getElementById("ingredients-list");
-  ingredientsList.childNodes.forEach((ingredient) => {
-    ingredient.addEventListener("click", (e) => {
-      selectedIngredients.push(ingredient.textContent);
-      let recipesByIngredients = filteredRecipesByDropdown(
-        selectedIngredients,
-        selectedUstensils,
-        selectedAppliances
-      );
-      displayRecipes(recipesByIngredients);
-    });
-  });
+  filterRecipesByIngredients();
 });
 
 appliancesDropdownToggleButton.addEventListener("click", (e) => {
@@ -166,20 +223,7 @@ appliancesDropdownToggleButton.addEventListener("click", (e) => {
     "appliance"
   );
   dropdownMenu.handleDropdownMenu();
-
-  const appliancesList = document.getElementById("appliance-list");
-  appliancesList.childNodes.forEach((appliance) => {
-    appliance.addEventListener("click", (e) => {
-      selectedAppliances.push(appliance.textContent);
-      let recipesByAppliances = filteredRecipesByDropdown(
-        selectedIngredients,
-        selectedUstensils,
-        selectedAppliances
-      );
-
-      displayRecipes(recipesByAppliances);
-    });
-  });
+  filterRecipesByAppliances();
 });
 
 ustensilsDropdownToggleButton.addEventListener("click", (e) => {
@@ -190,20 +234,7 @@ ustensilsDropdownToggleButton.addEventListener("click", (e) => {
     "ustensils"
   );
   dropdownMenu.handleDropdownMenu();
-
-  const ustensilsList = document.getElementById("ustensils-list");
-  ustensilsList.childNodes.forEach((ustensil) => {
-    ustensil.addEventListener("click", (e) => {
-      selectedUstensils.push(ustensil.textContent);
-      let recipesByUstensils = filteredRecipesByDropdown(
-        selectedIngredients,
-        selectedUstensils,
-        selectedAppliances
-      );
-
-      displayRecipes(recipesByUstensils);
-    });
-  });
+  filterRecipesByUstensils();
 });
 
 init();

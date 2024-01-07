@@ -91,6 +91,26 @@ const recipesFilteredByIngredients = (selectedIngredients) => {
 
   return recipesFilteredByDropdown;
 };
+const recipesFilteredByUstensils = (selectedUstensils) => {
+  let recipesFilteredByDropdown = [];
+  filteredRecipes.forEach((filteredRecipe) => {
+    if (filteredRecipe.hasAllUstensils(selectedUstensils)) {
+      recipesFilteredByDropdown.push(filteredRecipe);
+    }
+  });
+
+  return recipesFilteredByDropdown;
+};
+const recipesFilteredByAppliances = (selectedAppliances) => {
+  let recipesFilteredByDropdown = [];
+  filteredRecipes.forEach((filteredRecipe) => {
+    if (filteredRecipe.hasAppliance(selectedAppliances)) {
+      recipesFilteredByDropdown.push(filteredRecipe);
+    }
+  });
+
+  return recipesFilteredByDropdown;
+};
 
 /**
  * @description create a recipe instance to create new HTML Elements for the search results
@@ -158,8 +178,34 @@ appliancesDropdownToggleButton.addEventListener("click", (e) => {
     applianceDropdownMenuContainer,
     "appliance"
   );
-
   dropdownMenu.handleDropdownMenu();
+
+  const appliancesList = document.getElementById("appliance-list");
+  appliancesList.childNodes.forEach((appliance) => {
+    appliance.addEventListener("click", (e) => {
+      let selectedAppliances = [];
+      selectedAppliances.push(appliance.textContent);
+      let recipesByAppliances = recipesFilteredByAppliances(selectedAppliances);
+      recipeCardsContainer.innerHTML = "";
+
+      recipesByAppliances.forEach((recipe) => {
+        const recipeClass = new Recipe(
+          recipe.id,
+          recipe.image,
+          recipe.name,
+          recipe.servings,
+          recipe.ingredients,
+          recipe.time,
+          recipe.description,
+          recipe.appliance,
+          recipe.ustensils
+        );
+        recipeClasses.push(recipeClass);
+        recipeClass.createBaseCard();
+      });
+      displayRecipesNumber(recipesByAppliances);
+    });
+  });
 });
 
 ustensilsDropdownToggleButton.addEventListener("click", (e) => {
@@ -168,8 +214,34 @@ ustensilsDropdownToggleButton.addEventListener("click", (e) => {
     ustensilsDropdownMenuContainer,
     "ustensils"
   );
-
   dropdownMenu.handleDropdownMenu();
+
+  const ustensilsList = document.getElementById("ustensils-list");
+  ustensilsList.childNodes.forEach((ustensil) => {
+    ustensil.addEventListener("click", (e) => {
+      let selectedUstensils = [];
+      selectedUstensils.push(ustensil.textContent);
+      let recipesByUstensils = recipesFilteredByUstensils(selectedUstensils);
+      recipeCardsContainer.innerHTML = "";
+
+      recipesByUstensils.forEach((recipe) => {
+        const recipeClass = new Recipe(
+          recipe.id,
+          recipe.image,
+          recipe.name,
+          recipe.servings,
+          recipe.ingredients,
+          recipe.time,
+          recipe.description,
+          recipe.appliance,
+          recipe.ustensils
+        );
+        recipeClasses.push(recipeClass);
+        recipeClass.createBaseCard();
+      });
+      displayRecipesNumber(recipesByUstensils);
+    });
+  });
 });
 
 init();

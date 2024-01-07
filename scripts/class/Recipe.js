@@ -152,6 +152,7 @@ export default class Recipe {
     });
     return totalIngredientsSelected == totalIngredients;
   }
+
   hasAllUstensils(ustensils) {
     const totalUstensilsSelected = ustensils.length;
     let totalUstensils = 0;
@@ -167,19 +168,18 @@ export default class Recipe {
     });
     return totalUstensilsSelected == totalUstensils;
   }
-  // hasAllAppliances(appliances) {
-  //   const totalIngredients = ingredients.length;
-  //   let totalRecipeIngredients = 0;
-  //   ingredients.forEach((ingredient) => {
-  //     this.ingredients.forEach((recipeIngredient) => {
-  //       if (
-  //         ingredient.toLocaleLowerCase() ===
-  //         recipeIngredient.toLocaleLowerCase().trim()
-  //       ) {
-  //         totalRecipeIngredients++;
-  //       }
-  //     });
-  //   });
-  //   return totalIngredients == totalRecipeIngredients;
-  // }
+
+  hasAppliance(appliances) {
+    const totalAppliancesSelected = appliances.length;
+    let totalAppliances = 0;
+    appliances.forEach((appliance) => {
+      if (
+        appliance.toLocaleLowerCase() ===
+        this.appliance.toLocaleLowerCase().trim()
+      ) {
+        totalAppliances++;
+      }
+    });
+    return totalAppliancesSelected == totalAppliances;
+  }
 }

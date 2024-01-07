@@ -25,7 +25,14 @@ const appliancesDropdownToggleButton = document.getElementById(
 );
 
 const recipeClasses = [];
-let filteredRecipes = recipes;
+let filteredRecipes = [];
+let selectedIngredients = [];
+let selectedAppliances = [];
+let selectedUstensils = [];
+
+const handleRecipesList = () => {
+  return filteredRecipes.length > 0 ? filteredRecipes : recipeClasses;
+};
 
 /**
  * @description displays the number of recipes
@@ -39,11 +46,9 @@ const displayRecipesNumber = (recipesList) => {
   recipesNumber.textContent = `${recipesValue} ${recipeWording}`;
 };
 
-/**
- * @description display default recipes
- */
-const init = () => {
-  recipes.forEach((recipe) => {
+const displayRecipes = (recipesList) => {
+  recipeCardsContainer.innerHTML = "";
+  recipesList.forEach((recipe) => {
     const recipeClass = new Recipe(
       recipe.id,
       recipe.image,
@@ -58,7 +63,14 @@ const init = () => {
     recipeClasses.push(recipeClass);
     recipeClass.createBaseCard();
   });
-  displayRecipesNumber(recipes);
+  displayRecipesNumber(recipesList);
+};
+
+/**
+ * @description display default recipes
+ */
+const init = () => {
+  displayRecipes(recipes);
 };
 
 /**
@@ -81,34 +93,22 @@ const searchRecipes = (searchValue) => {
   return results;
 };
 
-const recipesFilteredByIngredients = (selectedIngredients) => {
+const filteredRecipesByDropdown = (
+  selectedIngredients,
+  selectedUstensils,
+  selectedAppliances
+) => {
   let recipesFilteredByDropdown = [];
-  filteredRecipes.forEach((filteredRecipe) => {
-    if (filteredRecipe.hasAllIngredients(selectedIngredients)) {
-      recipesFilteredByDropdown.push(filteredRecipe);
+  const recipesList = handleRecipesList();
+  recipesList.forEach((recipe) => {
+    if (
+      recipe.hasAllIngredients(selectedIngredients) &&
+      recipe.hasAllUstensils(selectedUstensils) &&
+      recipe.hasAppliance(selectedAppliances)
+    ) {
+      recipesFilteredByDropdown.push(recipe);
     }
   });
-
-  return recipesFilteredByDropdown;
-};
-const recipesFilteredByUstensils = (selectedUstensils) => {
-  let recipesFilteredByDropdown = [];
-  filteredRecipes.forEach((filteredRecipe) => {
-    if (filteredRecipe.hasAllUstensils(selectedUstensils)) {
-      recipesFilteredByDropdown.push(filteredRecipe);
-    }
-  });
-
-  return recipesFilteredByDropdown;
-};
-const recipesFilteredByAppliances = (selectedAppliances) => {
-  let recipesFilteredByDropdown = [];
-  filteredRecipes.forEach((filteredRecipe) => {
-    if (filteredRecipe.hasAppliance(selectedAppliances)) {
-      recipesFilteredByDropdown.push(filteredRecipe);
-    }
-  });
-
   return recipesFilteredByDropdown;
 };
 
@@ -135,8 +135,9 @@ searchBtn.addEventListener("click", (e) => {
 });
 
 ingredientsDropdownToggleButton.addEventListener("click", (e) => {
+  const recipesList = handleRecipesList();
   const dropdownMenu = new DropdownMenu(
-    filteredRecipes,
+    recipesList,
     ingredientsDropdownMenuContainer,
     "ingredients"
   );
@@ -146,35 +147,21 @@ ingredientsDropdownToggleButton.addEventListener("click", (e) => {
   const ingredientsList = document.getElementById("ingredients-list");
   ingredientsList.childNodes.forEach((ingredient) => {
     ingredient.addEventListener("click", (e) => {
-      let selectedIngredients = [];
       selectedIngredients.push(ingredient.textContent);
-      let recipesByIngredients =
-        recipesFilteredByIngredients(selectedIngredients);
-      recipeCardsContainer.innerHTML = "";
-
-      recipesByIngredients.forEach((recipe) => {
-        const recipeClass = new Recipe(
-          recipe.id,
-          recipe.image,
-          recipe.name,
-          recipe.servings,
-          recipe.ingredients,
-          recipe.time,
-          recipe.description,
-          recipe.appliance,
-          recipe.ustensils
-        );
-        recipeClasses.push(recipeClass);
-        recipeClass.createBaseCard();
-      });
-      displayRecipesNumber(recipesByIngredients);
+      let recipesByIngredients = filteredRecipesByDropdown(
+        selectedIngredients,
+        selectedUstensils,
+        selectedAppliances
+      );
+      displayRecipes(recipesByIngredients);
     });
   });
 });
 
 appliancesDropdownToggleButton.addEventListener("click", (e) => {
+  const recipesList = handleRecipesList();
   const dropdownMenu = new DropdownMenu(
-    filteredRecipes,
+    recipesList,
     applianceDropdownMenuContainer,
     "appliance"
   );
@@ -183,34 +170,22 @@ appliancesDropdownToggleButton.addEventListener("click", (e) => {
   const appliancesList = document.getElementById("appliance-list");
   appliancesList.childNodes.forEach((appliance) => {
     appliance.addEventListener("click", (e) => {
-      let selectedAppliances = [];
       selectedAppliances.push(appliance.textContent);
-      let recipesByAppliances = recipesFilteredByAppliances(selectedAppliances);
-      recipeCardsContainer.innerHTML = "";
+      let recipesByAppliances = filteredRecipesByDropdown(
+        selectedIngredients,
+        selectedUstensils,
+        selectedAppliances
+      );
 
-      recipesByAppliances.forEach((recipe) => {
-        const recipeClass = new Recipe(
-          recipe.id,
-          recipe.image,
-          recipe.name,
-          recipe.servings,
-          recipe.ingredients,
-          recipe.time,
-          recipe.description,
-          recipe.appliance,
-          recipe.ustensils
-        );
-        recipeClasses.push(recipeClass);
-        recipeClass.createBaseCard();
-      });
-      displayRecipesNumber(recipesByAppliances);
+      displayRecipes(recipesByAppliances);
     });
   });
 });
 
 ustensilsDropdownToggleButton.addEventListener("click", (e) => {
+  const recipesList = handleRecipesList();
   const dropdownMenu = new DropdownMenu(
-    filteredRecipes,
+    recipesList,
     ustensilsDropdownMenuContainer,
     "ustensils"
   );
@@ -219,27 +194,14 @@ ustensilsDropdownToggleButton.addEventListener("click", (e) => {
   const ustensilsList = document.getElementById("ustensils-list");
   ustensilsList.childNodes.forEach((ustensil) => {
     ustensil.addEventListener("click", (e) => {
-      let selectedUstensils = [];
       selectedUstensils.push(ustensil.textContent);
-      let recipesByUstensils = recipesFilteredByUstensils(selectedUstensils);
-      recipeCardsContainer.innerHTML = "";
+      let recipesByUstensils = filteredRecipesByDropdown(
+        selectedIngredients,
+        selectedUstensils,
+        selectedAppliances
+      );
 
-      recipesByUstensils.forEach((recipe) => {
-        const recipeClass = new Recipe(
-          recipe.id,
-          recipe.image,
-          recipe.name,
-          recipe.servings,
-          recipe.ingredients,
-          recipe.time,
-          recipe.description,
-          recipe.appliance,
-          recipe.ustensils
-        );
-        recipeClasses.push(recipeClass);
-        recipeClass.createBaseCard();
-      });
-      displayRecipesNumber(recipesByUstensils);
+      displayRecipes(recipesByUstensils);
     });
   });
 });

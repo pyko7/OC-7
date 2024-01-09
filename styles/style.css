@@ -217,6 +217,7 @@ main {
 }
 
 .dropdown-menu-results ul {
+  position: relative;
   margin-top: 1rem;
   list-style: none;
 }
@@ -228,6 +229,9 @@ main {
 }
 .dropdown-menu-results ul li:hover,
 .selected-ingredient {
+  background-color: var(--main-color);
+}
+.dropdown-menu-item-selected {
   background-color: var(--main-color);
 }
 

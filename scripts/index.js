@@ -123,22 +123,134 @@ const filteredRecipesByDropdown = (
   return recipesFilteredByDropdown;
 };
 
+const handleSelectedIngredients = (ingredient) => {
+  const ingredientsList = document.getElementById("ingredients-list");
+  const selectedIngredientsList = document.getElementById(
+    "ingredients-list-selected"
+  );
+  let isIngredientSelected = false;
+  selectedIngredientsList.childNodes.forEach((selectedIngredient) => {
+    if (selectedIngredient.textContent === ingredient.textContent) {
+      isIngredientSelected = true;
+    }
+  });
+  if (isIngredientSelected) {
+    ingredient.classList.remove("dropdown-menu-item-selected");
+    selectedIngredientsList.removeChild(ingredient);
+    ingredientsList.insertBefore(ingredient, ingredientsList.firstChild);
+    selectedIngredients = selectedIngredients.filter(
+      (selectedIngredient) =>
+        selectedIngredient.textContent === ingredient.textContent
+    );
+    return;
+  }
+  ingredient.classList.add("dropdown-menu-item-selected");
+  selectedIngredients.push(ingredient.textContent);
+  ingredientsList.removeChild(ingredient);
+  selectedIngredientsList.appendChild(ingredient);
+};
+
+const handleSelectedUstensils = (ustensil) => {
+  const ustensilsList = document.getElementById("ustensils-list");
+  const selectedUstensilsList = document.getElementById(
+    "ustensils-list-selected"
+  );
+  let isUstensilsList = false;
+  selectedUstensilsList.childNodes.forEach((selectedUstensil) => {
+    if (selectedUstensil.textContent === ustensil.textContent) {
+      isUstensilsList = true;
+    }
+  });
+  if (isUstensilsList) {
+    ustensil.classList.remove("dropdown-menu-item-selected");
+    selectedUstensilsList.removeChild(ustensil);
+    ustensilsList.insertBefore(ustensil, ustensilsList.firstChild);
+    selectedUstensils = selectedUstensils.filter(
+      (selectedUstensil) =>
+        selectedUstensil.textContent === ustensil.textContent
+    );
+    return;
+  }
+  ustensil.classList.add("dropdown-menu-item-selected");
+  selectedUstensils.push(ustensil.textContent);
+  ustensilsList.removeChild(ustensil);
+  selectedUstensilsList.appendChild(ustensil);
+};
+const handleSelectedAppliances = (appliance) => {
+  const appliancesList = document.getElementById("appliance-list");
+  const selectedAppliancesList = document.getElementById(
+    "appliance-list-selected"
+  );
+  let isApplianceList = false;
+  selectedAppliancesList.childNodes.forEach((selectedApplianceList) => {
+    if (selectedApplianceList.textContent === appliance.textContent) {
+      isApplianceList = true;
+    }
+  });
+  if (isApplianceList) {
+    appliance.classList.remove("dropdown-menu-item-selected");
+    selectedAppliancesList.removeChild(appliance);
+    appliancesList.insertBefore(appliance, appliancesList.firstChild);
+    selectedAppliances = selectedAppliances.filter(
+      (selectedAppliance) =>
+        selectedAppliance.textContent === appliance.textContent
+    );
+    return;
+  }
+  appliance.classList.add("dropdown-menu-item-selected");
+  selectedAppliances.push(appliance.textContent);
+  appliancesList.removeChild(appliance);
+  selectedAppliancesList.appendChild(appliance);
+};
+
+const handleDisplayedRecipesByIngredients = (ingredient) => {
+  handleSelectedIngredients(ingredient);
+  let filteredRecipes = filteredRecipesByDropdown(
+    selectedIngredients,
+    selectedUstensils,
+    selectedAppliances
+  );
+  displayRecipes(filteredRecipes);
+};
+const handleDisplayedRecipesByUstensils = (ingredient) => {
+  handleSelectedUstensils(ingredient);
+  let filteredRecipes = filteredRecipesByDropdown(
+    selectedIngredients,
+    selectedUstensils,
+    selectedAppliances
+  );
+  displayRecipes(filteredRecipes);
+};
+const handleDisplayedRecipesByAppliances = (appliance) => {
+  handleSelectedAppliances(appliance);
+  let filteredRecipes = filteredRecipesByDropdown(
+    selectedIngredients,
+    selectedUstensils,
+    selectedAppliances
+  );
+  displayRecipes(filteredRecipes);
+};
+
 /**
  * @description filter recipes by ingredients and display them
  *
  */
 const filterRecipesByIngredients = () => {
   const ingredientsList = document.getElementById("ingredients-list");
+  const selectedIngredientsList = document.getElementById(
+    "ingredients-list-selected"
+  );
+
+  selectedIngredientsList.childNodes.forEach((ingredient) => {
+    ingredient.addEventListener("click", () =>
+      handleDisplayedRecipesByIngredients(ingredient)
+    );
+  });
+
   ingredientsList.childNodes.forEach((ingredient) => {
-    ingredient.addEventListener("click", (e) => {
-      selectedIngredients.push(ingredient.textContent);
-      let recipesByIngredients = filteredRecipesByDropdown(
-        selectedIngredients,
-        selectedUstensils,
-        selectedAppliances
-      );
-      displayRecipes(recipesByIngredients);
-    });
+    ingredient.addEventListener("click", () =>
+      handleDisplayedRecipesByIngredients(ingredient)
+    );
   });
 };
 
@@ -148,17 +260,20 @@ const filterRecipesByIngredients = () => {
  */
 const filterRecipesByAppliances = () => {
   const appliancesList = document.getElementById("appliance-list");
-  appliancesList.childNodes.forEach((appliance) => {
-    appliance.addEventListener("click", (e) => {
-      selectedAppliances.push(appliance.textContent);
-      let recipesByAppliances = filteredRecipesByDropdown(
-        selectedIngredients,
-        selectedUstensils,
-        selectedAppliances
-      );
+  const selectedAppliancesList = document.getElementById(
+    "appliance-list-selected"
+  );
 
-      displayRecipes(recipesByAppliances);
-    });
+  selectedAppliancesList.childNodes.forEach((appliance) => {
+    appliance.addEventListener("click", () =>
+      handleDisplayedRecipesByAppliances(appliance)
+    );
+  });
+
+  appliancesList.childNodes.forEach((appliance) => {
+    appliance.addEventListener("click", () =>
+      handleDisplayedRecipesByAppliances(appliance)
+    );
   });
 };
 
@@ -168,17 +283,20 @@ const filterRecipesByAppliances = () => {
  */
 const filterRecipesByUstensils = () => {
   const ustensilsList = document.getElementById("ustensils-list");
-  ustensilsList.childNodes.forEach((ustensil) => {
-    ustensil.addEventListener("click", (e) => {
-      selectedUstensils.push(ustensil.textContent);
-      let recipesByUstensils = filteredRecipesByDropdown(
-        selectedIngredients,
-        selectedUstensils,
-        selectedAppliances
-      );
+  const selectedUstensilsList = document.getElementById(
+    "ustensils-list-selected"
+  );
 
-      displayRecipes(recipesByUstensils);
-    });
+  selectedUstensilsList.childNodes.forEach((ustensil) => {
+    ustensil.addEventListener("click", () =>
+      handleDisplayedRecipesByUstensils(ustensil)
+    );
+  });
+
+  ustensilsList.childNodes.forEach((ustensil) => {
+    ustensil.addEventListener("click", () =>
+      handleDisplayedRecipesByUstensils(ustensil)
+    );
   });
 };
 
@@ -238,3 +356,7 @@ ustensilsDropdownToggleButton.addEventListener("click", (e) => {
 });
 
 init();
+
+//CSS SELECTED ELEMENTS + CREATE BASE SELECTED ELEMENTS
+//REMOVE FILTER + UPDATE LIST
+//REMOVE DUPLICATA WHEN NO SEARCHS

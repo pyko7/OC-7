@@ -27,6 +27,7 @@ export default class DropdownMenu {
     const searchButtonIcon = document.createElement("img");
     const searchResultsContainer = document.createElement("div");
     const searchResultsList = document.createElement("ul");
+    const selectedListElement = document.createElement("ul");
 
     searchContainer.classList.add("dropdown-menu-search-container");
     searchInputContainer.classList.add("dropdown-menu-search");
@@ -35,6 +36,7 @@ export default class DropdownMenu {
 
     searchContainer.setAttribute("id", `${this.name}-results`);
     searchResultsList.setAttribute("id", `${this.name}-list`);
+    selectedListElement.setAttribute("id", `${this.name}-list-selected`);
     searchButton.setAttribute("aria-label", "Rechercher");
     searchButton.setAttribute("type", "button");
     searchButtonIcon.setAttribute("src", "/assets/svg/search-icon-grey.svg");
@@ -52,6 +54,7 @@ export default class DropdownMenu {
     searchContainer.appendChild(searchResultsContainer);
     searchInputContainer.appendChild(searchInput);
     searchInputContainer.appendChild(searchButton);
+    searchResultsContainer.appendChild(selectedListElement);
     searchResultsContainer.appendChild(searchResultsList);
     searchButton.appendChild(searchButtonIcon);
     this.container.appendChild(searchContainer);

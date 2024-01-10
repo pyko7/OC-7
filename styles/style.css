@@ -223,16 +223,38 @@ main {
 }
 
 .dropdown-menu-results ul li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 0.5rem 0;
   padding-left: 0.75rem;
   font-size: var(--font-sm);
 }
-.dropdown-menu-results ul li:hover,
-.selected-ingredient {
+
+.dropdown-menu-results ul li:hover {
   background-color: var(--main-color);
 }
 .dropdown-menu-item-selected {
+  font-weight: bold;
   background-color: var(--main-color);
+}
+
+.dropdown-menu-item-remove-button-hidden {
+  display: none;
+}
+
+.dropdown-menu-item-remove-button {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+}
+.dropdown-menu-item-remove-button img {
+  width: 100%;
+  height: 100%;
 }
 
 .cards-container {

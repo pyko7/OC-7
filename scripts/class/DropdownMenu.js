@@ -40,14 +40,31 @@ export default class DropdownMenu {
     searchButton.setAttribute("aria-label", "Rechercher");
     searchButton.setAttribute("type", "button");
     searchButtonIcon.setAttribute("src", "/assets/svg/search-icon-grey.svg");
-    searchButtonIcon.setAttribute("aria-hidden", true);
+    searchButtonIcon.setAttribute("alt", "");
 
     const searchResultsListElements = this.getDropdownMenuList();
 
     searchResultsListElements.forEach((element) => {
-      const listElement = document.createElement("li");
+      const listElementContainer = document.createElement("li");
+      const listElement = document.createElement("span");
+      const removeElementButton = document.createElement("button");
+      const removeElementIcon = document.createElement("img");
+      removeElementButton.setAttribute("aria-label", "Supprimer le filtre");
+      removeElementButton.setAttribute("type", "button");
+      removeElementIcon.setAttribute(
+        "src",
+        "/assets/svg/close-filled-icon.svg"
+      );
+      removeElementIcon.setAttribute("alt", "");
+      removeElementButton.classList.add(
+        "dropdown-menu-item-remove-button-hidden"
+      );
+
       listElement.textContent = ucFirst(element);
-      searchResultsList.appendChild(listElement);
+      removeElementButton.appendChild(removeElementIcon);
+      listElementContainer.appendChild(listElement);
+      listElementContainer.appendChild(removeElementButton);
+      searchResultsList.appendChild(listElementContainer);
     });
 
     searchContainer.appendChild(searchInputContainer);

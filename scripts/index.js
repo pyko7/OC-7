@@ -128,13 +128,27 @@ const handleSelectedIngredients = (ingredient) => {
   const selectedIngredientsList = document.getElementById(
     "ingredients-list-selected"
   );
+  let removeSelectedIngredientButton = undefined;
   let isIngredientSelected = false;
+
+  ingredient.childNodes.forEach((node) => {
+    if (node.nodeName === "BUTTON") {
+      removeSelectedIngredientButton = node;
+    }
+  });
+
   selectedIngredientsList.childNodes.forEach((selectedIngredient) => {
     if (selectedIngredient.textContent === ingredient.textContent) {
       isIngredientSelected = true;
     }
   });
   if (isIngredientSelected) {
+    removeSelectedIngredientButton.classList.remove(
+      "dropdown-menu-item-remove-button"
+    );
+    removeSelectedIngredientButton.classList.add(
+      "dropdown-menu-item-remove-button-hidden"
+    );
     ingredient.classList.remove("dropdown-menu-item-selected");
     selectedIngredientsList.removeChild(ingredient);
     ingredientsList.insertBefore(ingredient, ingredientsList.firstChild);
@@ -144,6 +158,12 @@ const handleSelectedIngredients = (ingredient) => {
     );
     return;
   }
+  removeSelectedIngredientButton.classList.add(
+    "dropdown-menu-item-remove-button"
+  );
+  removeSelectedIngredientButton.classList.remove(
+    "dropdown-menu-item-remove-button-hidden"
+  );
   ingredient.classList.add("dropdown-menu-item-selected");
   selectedIngredients.push(ingredient.textContent);
   ingredientsList.removeChild(ingredient);
@@ -155,13 +175,27 @@ const handleSelectedUstensils = (ustensil) => {
   const selectedUstensilsList = document.getElementById(
     "ustensils-list-selected"
   );
+  let removeSelectedUstensils = undefined;
   let isUstensilsList = false;
+
+  ustensil.childNodes.forEach((node) => {
+    if (node.nodeName === "BUTTON") {
+      removeSelectedUstensils = node;
+    }
+  });
+
   selectedUstensilsList.childNodes.forEach((selectedUstensil) => {
     if (selectedUstensil.textContent === ustensil.textContent) {
       isUstensilsList = true;
     }
   });
   if (isUstensilsList) {
+    removeSelectedUstensils.classList.remove(
+      "dropdown-menu-item-remove-button"
+    );
+    removeSelectedUstensils.classList.add(
+      "dropdown-menu-item-remove-button-hidden"
+    );
     ustensil.classList.remove("dropdown-menu-item-selected");
     selectedUstensilsList.removeChild(ustensil);
     ustensilsList.insertBefore(ustensil, ustensilsList.firstChild);
@@ -171,6 +205,10 @@ const handleSelectedUstensils = (ustensil) => {
     );
     return;
   }
+  removeSelectedUstensils.classList.add("dropdown-menu-item-remove-button");
+  removeSelectedUstensils.classList.remove(
+    "dropdown-menu-item-remove-button-hidden"
+  );
   ustensil.classList.add("dropdown-menu-item-selected");
   selectedUstensils.push(ustensil.textContent);
   ustensilsList.removeChild(ustensil);
@@ -181,13 +219,27 @@ const handleSelectedAppliances = (appliance) => {
   const selectedAppliancesList = document.getElementById(
     "appliance-list-selected"
   );
+  let removeSelectedAppliance = undefined;
   let isApplianceList = false;
+
+  appliance.childNodes.forEach((node) => {
+    if (node.nodeName === "BUTTON") {
+      removeSelectedAppliance = node;
+    }
+  });
+
   selectedAppliancesList.childNodes.forEach((selectedApplianceList) => {
     if (selectedApplianceList.textContent === appliance.textContent) {
       isApplianceList = true;
     }
   });
   if (isApplianceList) {
+    removeSelectedAppliance.classList.remove(
+      "dropdown-menu-item-remove-button"
+    );
+    removeSelectedAppliance.classList.add(
+      "dropdown-menu-item-remove-button-hidden"
+    );
     appliance.classList.remove("dropdown-menu-item-selected");
     selectedAppliancesList.removeChild(appliance);
     appliancesList.insertBefore(appliance, appliancesList.firstChild);
@@ -197,6 +249,10 @@ const handleSelectedAppliances = (appliance) => {
     );
     return;
   }
+  removeSelectedAppliance.classList.add("dropdown-menu-item-remove-button");
+  removeSelectedAppliance.classList.remove(
+    "dropdown-menu-item-remove-button-hidden"
+  );
   appliance.classList.add("dropdown-menu-item-selected");
   selectedAppliances.push(appliance.textContent);
   appliancesList.removeChild(appliance);
@@ -237,15 +293,6 @@ const handleDisplayedRecipesByAppliances = (appliance) => {
  */
 const filterRecipesByIngredients = () => {
   const ingredientsList = document.getElementById("ingredients-list");
-  const selectedIngredientsList = document.getElementById(
-    "ingredients-list-selected"
-  );
-
-  selectedIngredientsList.childNodes.forEach((ingredient) => {
-    ingredient.addEventListener("click", () =>
-      handleDisplayedRecipesByIngredients(ingredient)
-    );
-  });
 
   ingredientsList.childNodes.forEach((ingredient) => {
     ingredient.addEventListener("click", () =>
@@ -260,15 +307,6 @@ const filterRecipesByIngredients = () => {
  */
 const filterRecipesByAppliances = () => {
   const appliancesList = document.getElementById("appliance-list");
-  const selectedAppliancesList = document.getElementById(
-    "appliance-list-selected"
-  );
-
-  selectedAppliancesList.childNodes.forEach((appliance) => {
-    appliance.addEventListener("click", () =>
-      handleDisplayedRecipesByAppliances(appliance)
-    );
-  });
 
   appliancesList.childNodes.forEach((appliance) => {
     appliance.addEventListener("click", () =>
@@ -283,15 +321,6 @@ const filterRecipesByAppliances = () => {
  */
 const filterRecipesByUstensils = () => {
   const ustensilsList = document.getElementById("ustensils-list");
-  const selectedUstensilsList = document.getElementById(
-    "ustensils-list-selected"
-  );
-
-  selectedUstensilsList.childNodes.forEach((ustensil) => {
-    ustensil.addEventListener("click", () =>
-      handleDisplayedRecipesByUstensils(ustensil)
-    );
-  });
 
   ustensilsList.childNodes.forEach((ustensil) => {
     ustensil.addEventListener("click", () =>
@@ -357,6 +386,4 @@ ustensilsDropdownToggleButton.addEventListener("click", (e) => {
 
 init();
 
-//CSS SELECTED ELEMENTS + CREATE BASE SELECTED ELEMENTS
-//REMOVE FILTER + UPDATE LIST
-//REMOVE DUPLICATA WHEN NO SEARCHS
+//REMOVE ELEMENT WHEN CLICK ON BUTTON ONLY

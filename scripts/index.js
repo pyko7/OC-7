@@ -1,6 +1,7 @@
 import { recipes } from "./utils/recipes.js";
 import Recipe from "./class/Recipe.js";
 import DropdownMenu from "./class/DropdownMenu.js";
+import { handleSelectedElement } from "./dropdownUtils.js";
 
 const searchInput = document.getElementById("search-input");
 const searchBtn = document.getElementById("search-btn");
@@ -123,162 +124,67 @@ const filteredRecipesByDropdown = (
   return recipesFilteredByDropdown;
 };
 
-const handleSelectedIngredients = (ingredient) => {
+/**
+ * @description handle selected ingredients and display the list of selected/not selected ingredients
+ * @param {HTMLLIElement} ingredient DOM element clicked by the user
+ */
+const handleDisplayedRecipesByIngredients = (ingredient) => {
   const ingredientsList = document.getElementById("ingredients-list");
   const selectedIngredientsList = document.getElementById(
     "ingredients-list-selected"
   );
-  let removeSelectedIngredientButton = undefined;
-  let isIngredientSelected = false;
-
-  ingredient.childNodes.forEach((node) => {
-    if (node.nodeName === "BUTTON") {
-      removeSelectedIngredientButton = node;
-    }
-  });
-
-  selectedIngredientsList.childNodes.forEach((selectedIngredient) => {
-    if (selectedIngredient.textContent === ingredient.textContent) {
-      isIngredientSelected = true;
-    }
-  });
-  if (isIngredientSelected) {
-    removeSelectedIngredientButton.classList.remove(
-      "dropdown-menu-item-remove-button"
-    );
-    removeSelectedIngredientButton.classList.add(
-      "dropdown-menu-item-remove-button-hidden"
-    );
-    ingredient.classList.remove("dropdown-menu-item-selected");
-    selectedIngredientsList.removeChild(ingredient);
-    ingredientsList.insertBefore(ingredient, ingredientsList.firstChild);
-    selectedIngredients = selectedIngredients.filter(
-      (selectedIngredient) =>
-        selectedIngredient.textContent === ingredient.textContent
-    );
-    return;
-  }
-  removeSelectedIngredientButton.classList.add(
-    "dropdown-menu-item-remove-button"
+  selectedIngredients = handleSelectedElement(
+    ingredientsList,
+    selectedIngredientsList,
+    selectedIngredients,
+    ingredient
   );
-  removeSelectedIngredientButton.classList.remove(
-    "dropdown-menu-item-remove-button-hidden"
+  let filteredRecipes = filteredRecipesByDropdown(
+    selectedIngredients,
+    selectedUstensils,
+    selectedAppliances
   );
-  ingredient.classList.add("dropdown-menu-item-selected");
-  selectedIngredients.push(ingredient.textContent);
-  ingredientsList.removeChild(ingredient);
-  selectedIngredientsList.appendChild(ingredient);
+  displayRecipes(filteredRecipes);
 };
 
-const handleSelectedUstensils = (ustensil) => {
+/**
+ * @description handle selected ustensils and display the list of selected/not selected ustensils
+ * @param {HTMLLIElement} ustensil DOM element clicked by the user
+ */
+const handleDisplayedRecipesByUstensils = (ustensil) => {
   const ustensilsList = document.getElementById("ustensils-list");
   const selectedUstensilsList = document.getElementById(
     "ustensils-list-selected"
   );
-  let removeSelectedUstensils = undefined;
-  let isUstensilsList = false;
-
-  ustensil.childNodes.forEach((node) => {
-    if (node.nodeName === "BUTTON") {
-      removeSelectedUstensils = node;
-    }
-  });
-
-  selectedUstensilsList.childNodes.forEach((selectedUstensil) => {
-    if (selectedUstensil.textContent === ustensil.textContent) {
-      isUstensilsList = true;
-    }
-  });
-  if (isUstensilsList) {
-    removeSelectedUstensils.classList.remove(
-      "dropdown-menu-item-remove-button"
-    );
-    removeSelectedUstensils.classList.add(
-      "dropdown-menu-item-remove-button-hidden"
-    );
-    ustensil.classList.remove("dropdown-menu-item-selected");
-    selectedUstensilsList.removeChild(ustensil);
-    ustensilsList.insertBefore(ustensil, ustensilsList.firstChild);
-    selectedUstensils = selectedUstensils.filter(
-      (selectedUstensil) =>
-        selectedUstensil.textContent === ustensil.textContent
-    );
-    return;
-  }
-  removeSelectedUstensils.classList.add("dropdown-menu-item-remove-button");
-  removeSelectedUstensils.classList.remove(
-    "dropdown-menu-item-remove-button-hidden"
+  selectedUstensils = handleSelectedElement(
+    ustensilsList,
+    selectedUstensilsList,
+    selectedUstensils,
+    ustensil
   );
-  ustensil.classList.add("dropdown-menu-item-selected");
-  selectedUstensils.push(ustensil.textContent);
-  ustensilsList.removeChild(ustensil);
-  selectedUstensilsList.appendChild(ustensil);
+  let filteredRecipes = filteredRecipesByDropdown(
+    selectedIngredients,
+    selectedUstensils,
+    selectedAppliances
+  );
+  displayRecipes(filteredRecipes);
 };
-const handleSelectedAppliances = (appliance) => {
+
+/**
+ * @description handle selected appliances and display the list of selected/not selected appliances
+ * @param {HTMLLIElement} appliance DOM element clicked by the user
+ */
+const handleDisplayedRecipesByAppliances = (appliance) => {
   const appliancesList = document.getElementById("appliance-list");
   const selectedAppliancesList = document.getElementById(
     "appliance-list-selected"
   );
-  let removeSelectedAppliance = undefined;
-  let isApplianceList = false;
-
-  appliance.childNodes.forEach((node) => {
-    if (node.nodeName === "BUTTON") {
-      removeSelectedAppliance = node;
-    }
-  });
-
-  selectedAppliancesList.childNodes.forEach((selectedApplianceList) => {
-    if (selectedApplianceList.textContent === appliance.textContent) {
-      isApplianceList = true;
-    }
-  });
-  if (isApplianceList) {
-    removeSelectedAppliance.classList.remove(
-      "dropdown-menu-item-remove-button"
-    );
-    removeSelectedAppliance.classList.add(
-      "dropdown-menu-item-remove-button-hidden"
-    );
-    appliance.classList.remove("dropdown-menu-item-selected");
-    selectedAppliancesList.removeChild(appliance);
-    appliancesList.insertBefore(appliance, appliancesList.firstChild);
-    selectedAppliances = selectedAppliances.filter(
-      (selectedAppliance) =>
-        selectedAppliance.textContent === appliance.textContent
-    );
-    return;
-  }
-  removeSelectedAppliance.classList.add("dropdown-menu-item-remove-button");
-  removeSelectedAppliance.classList.remove(
-    "dropdown-menu-item-remove-button-hidden"
+  selectedAppliances = handleSelectedElement(
+    appliancesList,
+    selectedAppliancesList,
+    selectedAppliances,
+    appliance
   );
-  appliance.classList.add("dropdown-menu-item-selected");
-  selectedAppliances.push(appliance.textContent);
-  appliancesList.removeChild(appliance);
-  selectedAppliancesList.appendChild(appliance);
-};
-
-const handleDisplayedRecipesByIngredients = (ingredient) => {
-  handleSelectedIngredients(ingredient);
-  let filteredRecipes = filteredRecipesByDropdown(
-    selectedIngredients,
-    selectedUstensils,
-    selectedAppliances
-  );
-  displayRecipes(filteredRecipes);
-};
-const handleDisplayedRecipesByUstensils = (ingredient) => {
-  handleSelectedUstensils(ingredient);
-  let filteredRecipes = filteredRecipesByDropdown(
-    selectedIngredients,
-    selectedUstensils,
-    selectedAppliances
-  );
-  displayRecipes(filteredRecipes);
-};
-const handleDisplayedRecipesByAppliances = (appliance) => {
-  handleSelectedAppliances(appliance);
   let filteredRecipes = filteredRecipesByDropdown(
     selectedIngredients,
     selectedUstensils,
@@ -385,5 +291,3 @@ ustensilsDropdownToggleButton.addEventListener("click", (e) => {
 });
 
 init();
-
-//REMOVE ELEMENT WHEN CLICK ON BUTTON ONLY

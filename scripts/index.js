@@ -52,8 +52,19 @@ const displayRecipesNumber = (recipesList) => {
  * @param {Object} recipesList list of recipes
  */
 const displayRecipes = (recipesList) => {
+  console.log(recipesList);
   recipeCardsContainer.innerHTML = "";
   recipesList.forEach((recipe) => {
+    recipe.createBaseCard();
+  });
+  displayRecipesNumber(recipesList);
+};
+
+/**
+ * @description display default recipes
+ */
+const init = () => {
+  recipes.forEach((recipe) => {
     const recipeClass = new Recipe(
       recipe.id,
       recipe.image,
@@ -66,16 +77,8 @@ const displayRecipes = (recipesList) => {
       recipe.ustensils
     );
     recipeClasses.push(recipeClass);
-    recipeClass.createBaseCard();
   });
-  displayRecipesNumber(recipesList);
-};
-
-/**
- * @description display default recipes
- */
-const init = () => {
-  displayRecipes(recipes);
+  displayRecipes(recipeClasses);
 };
 
 /**
@@ -111,8 +114,7 @@ const filteredRecipesByDropdown = (
   selectedAppliances
 ) => {
   let recipesFilteredByDropdown = [];
-  const recipesList = handleRecipesList();
-  recipesList.forEach((recipe) => {
+  recipeClasses.forEach((recipe) => {
     if (
       recipe.hasAllIngredients(selectedIngredients) &&
       recipe.hasAllUstensils(selectedUstensils) &&
@@ -139,7 +141,7 @@ const handleDisplayedRecipesByIngredients = (ingredient) => {
     selectedIngredients,
     ingredient
   );
-  let filteredRecipes = filteredRecipesByDropdown(
+  filteredRecipes = filteredRecipesByDropdown(
     selectedIngredients,
     selectedUstensils,
     selectedAppliances
@@ -162,7 +164,7 @@ const handleDisplayedRecipesByUstensils = (ustensil) => {
     selectedUstensils,
     ustensil
   );
-  let filteredRecipes = filteredRecipesByDropdown(
+  filteredRecipes = filteredRecipesByDropdown(
     selectedIngredients,
     selectedUstensils,
     selectedAppliances
@@ -185,7 +187,7 @@ const handleDisplayedRecipesByAppliances = (appliance) => {
     selectedAppliances,
     appliance
   );
-  let filteredRecipes = filteredRecipesByDropdown(
+  filteredRecipes = filteredRecipesByDropdown(
     selectedIngredients,
     selectedUstensils,
     selectedAppliances
@@ -244,10 +246,7 @@ const handleMainSearch = () => {
     return;
   } else {
     filteredRecipes = searchRecipes(searchInput.value);
-    recipeCardsContainer.innerHTML = "";
-    filteredRecipes.forEach((filteredRecipe) => {
-      filteredRecipe.createBaseCard();
-    });
+    displayRecipes(filteredRecipes);
   }
 };
 
@@ -275,6 +274,7 @@ appliancesDropdownToggleButton.addEventListener("click", (e) => {
     applianceDropdownMenuContainer,
     "appliance"
   );
+  console.log(dropdownMenu);
   dropdownMenu.handleDropdownMenu();
   filterRecipesByAppliances();
 });

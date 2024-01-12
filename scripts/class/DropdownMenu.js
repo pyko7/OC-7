@@ -20,21 +20,22 @@ export default class DropdownMenu {
    * @description create a DOM Element
    */
   createBaseDropdownMenu() {
-    const searchContainer = document.createElement("div");
+    const searchResultsContainer = document.createElement("div");
     const searchInputContainer = document.createElement("div");
     const searchInput = document.createElement("input");
     const searchButton = document.createElement("button");
     const searchButtonIcon = document.createElement("img");
-    const searchResultsContainer = document.createElement("div");
+    const searchResults = document.createElement("div");
     const searchResultsList = document.createElement("ul");
     const selectedListElement = document.createElement("ul");
 
-    searchContainer.classList.add("dropdown-menu-search-container");
+    searchResultsContainer.classList.add("dropdown-menu-search-container");
     searchInputContainer.classList.add("dropdown-menu-search");
     searchButton.classList.add("search-btn");
-    searchResultsContainer.classList.add("dropdown-menu-results");
+    searchResults.classList.add("dropdown-menu-results");
 
-    searchContainer.setAttribute("id", `${this.name}-results`);
+    searchResultsContainer.setAttribute("id", `${this.name}-results-container`);
+    searchResults.setAttribute("id", `${this.name}-results`);
     searchResultsList.setAttribute("id", `${this.name}-list`);
     selectedListElement.setAttribute("id", `${this.name}-list-selected`);
     searchButton.setAttribute("aria-label", "Rechercher");
@@ -67,37 +68,69 @@ export default class DropdownMenu {
       searchResultsList.appendChild(listElementContainer);
     });
 
-    searchContainer.appendChild(searchInputContainer);
-    searchContainer.appendChild(searchResultsContainer);
+    searchResultsContainer.appendChild(searchResults);
     searchInputContainer.appendChild(searchInput);
     searchInputContainer.appendChild(searchButton);
-    searchResultsContainer.appendChild(selectedListElement);
-    searchResultsContainer.appendChild(searchResultsList);
+    searchResults.appendChild(searchInputContainer);
+    searchResults.appendChild(selectedListElement);
+    searchResults.appendChild(searchResultsList);
     searchButton.appendChild(searchButtonIcon);
-    this.container.appendChild(searchContainer);
+    this.container.appendChild(searchResultsContainer);
   }
 
-  displayDropdownMenu() {
-    const dropdownMenu = document.getElementById(`${this.name}-results`);
+  // updateDropdownMenuList() {
+  //   const resultsList = document.getElementById(`${this.name}-list`);
+  //   const resultsListContainer = document.getElementById(
+  //     `${this.name}-results`
+  //   );
+
+  //   const searchResultsListElements = this.getDropdownMenuList();
+  //   resultsList.innerHTML = "";
+
+  //   searchResultsListElements.forEach((element) => {
+  //     const listElementContainer = document.createElement("li");
+  //     const listElement = document.createElement("span");
+  //     const removeElementButton = document.createElement("button");
+  //     const removeElementIcon = document.createElement("img");
+  //     removeElementButton.setAttribute("aria-label", "Supprimer le filtre");
+  //     removeElementButton.setAttribute("type", "button");
+  //     removeElementIcon.setAttribute(
+  //       "src",
+  //       "/assets/svg/close-filled-icon.svg"
+  //     );
+  //     removeElementIcon.setAttribute("alt", "");
+  //     removeElementButton.classList.add(
+  //       "dropdown-menu-item-remove-button-hidden"
+  //     );
+
+  //     listElement.textContent = ucFirst(element);
+  //     removeElementButton.appendChild(removeElementIcon);
+  //     listElementContainer.appendChild(listElement);
+  //     listElementContainer.appendChild(removeElementButton);
+  //     resultsList.appendChild(listElementContainer);
+  //   });
+  //   resultsListContainer.appendChild(resultsList);
+  // }
+
+  displayDropdownMenu(dropdownMenu) {
     dropdownMenu.classList.remove("dropdown-menu-search-container-hidden");
   }
-  hideDropdownMenu() {
-    const dropdownMenu = document.getElementById(`${this.name}-results`);
+  hideDropdownMenu(dropdownMenu) {
     dropdownMenu.classList.add("dropdown-menu-search-container-hidden");
   }
 
   /**
    * @description handle dropdown menu opening
-   * @param {HTMLElement} dropdownMenuResults
+   * @param {HTMLElement} dropdownMenu
    */
-  handleDropdownMenuVisibility(dropdownMenuResults) {
-    const dropdownMenuClassList = Array.from(dropdownMenuResults.classList);
+  handleDropdownMenuVisibility(dropdownMenu) {
+    const dropdownMenuClassList = Array.from(dropdownMenu.classList);
     if (
       dropdownMenuClassList.includes("dropdown-menu-search-container-hidden")
     ) {
-      this.displayDropdownMenu();
+      this.displayDropdownMenu(dropdownMenu);
     } else {
-      this.hideDropdownMenu();
+      this.hideDropdownMenu(dropdownMenu);
     }
   }
 
@@ -105,11 +138,15 @@ export default class DropdownMenu {
    * @description handle if we create or display the dropdown menu
    */
   handleDropdownMenu() {
-    const ingredientsResults = document.getElementById(`${this.name}-results`);
-    if (!ingredientsResults) {
+    const dropdownMenu = document.getElementById(
+      `${this.name}-results-container`
+    );
+    const resultsList = document.getElementById(`${this.name}-results`);
+    if (!resultsList) {
       this.createBaseDropdownMenu();
     } else {
-      this.handleDropdownMenuVisibility(ingredientsResults);
+      // this.updateDropdownMenuList(resultsList);
+      this.handleDropdownMenuVisibility(dropdownMenu);
     }
   }
 

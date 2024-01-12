@@ -43,7 +43,34 @@ export default class DropdownMenu {
     searchButtonIcon.setAttribute("src", "/assets/svg/search-icon-grey.svg");
     searchButtonIcon.setAttribute("alt", "");
 
-    const searchResultsListElements = this.getDropdownMenuList();
+    this.createDropdownMenuList(
+      this.recipes,
+      searchResultsList,
+      searchResultsContainer
+    );
+
+    searchResultsContainer.appendChild(searchResults);
+    searchInputContainer.appendChild(searchInput);
+    searchInputContainer.appendChild(searchButton);
+    searchResults.appendChild(searchInputContainer);
+    searchResults.appendChild(selectedListElement);
+    searchResults.appendChild(searchResultsList);
+    searchButton.appendChild(searchButtonIcon);
+    this.container.appendChild(searchResultsContainer);
+  }
+
+  /**
+   * @description create recipes list in DOM
+   * @param {Object} list array of recipes
+   * @param {HTMLUListElement} resultsList DOM Element containing recipes
+   * @param {HTMLDivElement} resultsListContainer DOM Element containing the recipes list
+   */
+  createDropdownMenuList(list, resultsList, resultsListContainer) {
+    const searchResultsListElements = this.getDropdownMenuList(list);
+
+    if (resultsList) {
+      resultsList.innerHTML = "";
+    }
 
     searchResultsListElements.forEach((element) => {
       const listElementContainer = document.createElement("li");
@@ -65,52 +92,10 @@ export default class DropdownMenu {
       removeElementButton.appendChild(removeElementIcon);
       listElementContainer.appendChild(listElement);
       listElementContainer.appendChild(removeElementButton);
-      searchResultsList.appendChild(listElementContainer);
+      resultsList.appendChild(listElementContainer);
     });
-
-    searchResultsContainer.appendChild(searchResults);
-    searchInputContainer.appendChild(searchInput);
-    searchInputContainer.appendChild(searchButton);
-    searchResults.appendChild(searchInputContainer);
-    searchResults.appendChild(selectedListElement);
-    searchResults.appendChild(searchResultsList);
-    searchButton.appendChild(searchButtonIcon);
-    this.container.appendChild(searchResultsContainer);
+    resultsListContainer.appendChild(resultsList);
   }
-
-  // updateDropdownMenuList() {
-  //   const resultsList = document.getElementById(`${this.name}-list`);
-  //   const resultsListContainer = document.getElementById(
-  //     `${this.name}-results`
-  //   );
-
-  //   const searchResultsListElements = this.getDropdownMenuList();
-  //   resultsList.innerHTML = "";
-
-  //   searchResultsListElements.forEach((element) => {
-  //     const listElementContainer = document.createElement("li");
-  //     const listElement = document.createElement("span");
-  //     const removeElementButton = document.createElement("button");
-  //     const removeElementIcon = document.createElement("img");
-  //     removeElementButton.setAttribute("aria-label", "Supprimer le filtre");
-  //     removeElementButton.setAttribute("type", "button");
-  //     removeElementIcon.setAttribute(
-  //       "src",
-  //       "/assets/svg/close-filled-icon.svg"
-  //     );
-  //     removeElementIcon.setAttribute("alt", "");
-  //     removeElementButton.classList.add(
-  //       "dropdown-menu-item-remove-button-hidden"
-  //     );
-
-  //     listElement.textContent = ucFirst(element);
-  //     removeElementButton.appendChild(removeElementIcon);
-  //     listElementContainer.appendChild(listElement);
-  //     listElementContainer.appendChild(removeElementButton);
-  //     resultsList.appendChild(listElementContainer);
-  //   });
-  //   resultsListContainer.appendChild(resultsList);
-  // }
 
   displayDropdownMenu(dropdownMenu) {
     dropdownMenu.classList.remove("dropdown-menu-search-container-hidden");
@@ -145,7 +130,6 @@ export default class DropdownMenu {
     if (!resultsList) {
       this.createBaseDropdownMenu();
     } else {
-      // this.updateDropdownMenuList(resultsList);
       this.handleDropdownMenuVisibility(dropdownMenu);
     }
   }
@@ -154,9 +138,9 @@ export default class DropdownMenu {
    * @description get the displayed list in the dropdown menu
    * @returns {Object} displayed list in the dropdown menu
    */
-  getDropdownMenuList() {
+  getDropdownMenuList(recipesList) {
     let list = [];
-    this.recipes.forEach((recipe) => {
+    recipesList.forEach((recipe) => {
       if (this.name === "ingredients") {
         recipe.ingredients.forEach((ingredient) => {
           const recipeIngredient = ingredient.ingredient.toLowerCase().trim();

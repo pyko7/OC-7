@@ -197,44 +197,52 @@ const handleDisplayedRecipesByAppliances = (appliance) => {
   displayRecipes(filteredRecipes);
 };
 
-const handleIngredientsDropdownListUpdates = () => {
+const handleDropdownListUpdates = () => {
   const ingredientsList = document.getElementById("ingredients-list");
   const ingredientsListContainer = document.getElementById(
     "ingredients-results"
   );
+
+  const appliancesList = document.getElementById("appliance-list");
+  const appliancesListContainer = document.getElementById("appliance-results");
+  const ustensilsList = document.getElementById("ustensils-list");
+  const ustensilsListContainer = document.getElementById("ustensils-results");
+
   if (ingredientsList && ingredientsListContainer) {
+    const selectedIngredientsList = document.getElementById(
+      "ingredients-list-selected"
+    );
     ingredientsDropdownMenu.createDropdownMenuList(
       filteredRecipes,
       ingredientsList,
-      ingredientsListContainer
+      ingredientsListContainer,
+      selectedIngredientsList
     );
     filterRecipesByIngredients();
   }
-};
-
-const handleAppliancesDropdownListUpdates = () => {
-  const appliancesList = document.getElementById("appliance-list");
-  const appliancesListContainer = document.getElementById("appliance-results");
   if (appliancesList && appliancesListContainer) {
+    const selectedAppliancesList = document.getElementById(
+      "appliance-list-selected"
+    );
     appliancesDropdownMenu.createDropdownMenuList(
       filteredRecipes,
       appliancesList,
-      appliancesListContainer
+      appliancesListContainer,
+      selectedAppliancesList
     );
     filterRecipesByAppliances();
   }
-};
-
-const handleUstensilsDropdownListUpdates = () => {
-  const ustensilsList = document.getElementById("ustensils-list");
-  const ustensilsListContainer = document.getElementById("ustensils-results");
   if (ustensilsList && ustensilsListContainer) {
+    const selectedUstensilsList = document.getElementById(
+      "ustensils-list-selected"
+    );
+
     ustensilsDropdownMenu.createDropdownMenuList(
       filteredRecipes,
       ustensilsList,
-      ustensilsListContainer
+      ustensilsListContainer,
+      selectedUstensilsList
     );
-    filterRecipesByUstensils();
   }
 };
 
@@ -248,8 +256,7 @@ const filterRecipesByIngredients = () => {
   ingredientsList.childNodes.forEach((ingredient) => {
     ingredient.addEventListener("click", () => {
       handleDisplayedRecipesByIngredients(ingredient);
-      handleAppliancesDropdownListUpdates();
-      handleUstensilsDropdownListUpdates();
+      handleDropdownListUpdates();
     });
   });
 };
@@ -264,8 +271,7 @@ const filterRecipesByAppliances = () => {
   appliancesList.childNodes.forEach((appliance) => {
     appliance.addEventListener("click", () => {
       handleDisplayedRecipesByAppliances(appliance);
-      handleUstensilsDropdownListUpdates();
-      handleIngredientsDropdownListUpdates();
+      handleDropdownListUpdates();
     });
   });
 };
@@ -280,8 +286,7 @@ const filterRecipesByUstensils = () => {
   ustensilsList.childNodes.forEach((ustensil) => {
     ustensil.addEventListener("click", (e) => {
       handleDisplayedRecipesByUstensils(ustensil);
-      handleAppliancesDropdownListUpdates();
-      handleIngredientsDropdownListUpdates();
+      handleDropdownListUpdates();
     });
   });
 };

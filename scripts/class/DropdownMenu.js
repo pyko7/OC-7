@@ -64,10 +64,15 @@ export default class DropdownMenu {
    * @param {Object} list array of recipes
    * @param {HTMLUListElement} resultsList DOM Element containing recipes
    * @param {HTMLDivElement} resultsListContainer DOM Element containing the recipes list
+   * @param {HTMLUListElement} selectedList DOM Element of selected items
    */
-  createDropdownMenuList(list, resultsList, resultsListContainer) {
+  createDropdownMenuList(
+    list,
+    resultsList,
+    resultsListContainer,
+    selectedList
+  ) {
     const searchResultsListElements = this.getDropdownMenuList(list);
-
     if (resultsList) {
       resultsList.innerHTML = "";
     }
@@ -93,6 +98,11 @@ export default class DropdownMenu {
       listElementContainer.appendChild(listElement);
       listElementContainer.appendChild(removeElementButton);
       resultsList.appendChild(listElementContainer);
+      selectedList?.childNodes.forEach((children) => {
+        if (children.textContent.toLowerCase().trim() === element) {
+          resultsList.removeChild(listElementContainer);
+        }
+      });
     });
     resultsListContainer.appendChild(resultsList);
   }

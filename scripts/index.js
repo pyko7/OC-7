@@ -1,7 +1,6 @@
 import { recipes } from "./utils/recipes.js";
 import Recipe from "./class/Recipe.js";
 import DropdownMenu from "./class/DropdownMenu.js";
-import { handleSelectedElement } from "./dropdownUtils.js";
 
 const searchInput = document.getElementById("search-input");
 const searchBtn = document.getElementById("search-btn");
@@ -137,7 +136,7 @@ const handleDisplayedRecipesByIngredients = (ingredient) => {
   const selectedIngredientsList = document.getElementById(
     "ingredients-list-selected"
   );
-  selectedIngredients = handleSelectedElement(
+  selectedIngredients = DropdownMenu.handleSelectedElement(
     ingredientsList,
     selectedIngredientsList,
     selectedIngredients,
@@ -160,7 +159,7 @@ const handleDisplayedRecipesByUstensils = (ustensil) => {
   const selectedUstensilsList = document.getElementById(
     "ustensils-list-selected"
   );
-  selectedUstensils = handleSelectedElement(
+  selectedUstensils = DropdownMenu.handleSelectedElement(
     ustensilsList,
     selectedUstensilsList,
     selectedUstensils,
@@ -183,7 +182,7 @@ const handleDisplayedRecipesByAppliances = (appliance) => {
   const selectedAppliancesList = document.getElementById(
     "appliance-list-selected"
   );
-  selectedAppliances = handleSelectedElement(
+  selectedAppliances = DropdownMenu.handleSelectedElement(
     appliancesList,
     selectedAppliancesList,
     selectedAppliances,
@@ -243,6 +242,7 @@ const handleDropdownListUpdates = () => {
       ustensilsListContainer,
       selectedUstensilsList
     );
+    filterRecipesByUstensils();
   }
 };
 

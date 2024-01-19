@@ -171,7 +171,7 @@ export default class DropdownMenu {
           list.push(recipeUstensils);
         });
       } else {
-        list.push(recipe.appliance);
+        list.push(recipe.appliance.toLowerCase().trim());
       }
     });
     list = removeDuplicates(list);

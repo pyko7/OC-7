@@ -115,7 +115,13 @@ const filteredRecipesByDropdown = (
   selectedAppliances
 ) => {
   let recipesFilteredByDropdown = [];
-  recipeClasses.forEach((recipe) => {
+  let filteredRecipeBySearch = [];
+  if (searchInput.value.length < 3 && searchInput.value.length !== 0) {
+    filteredRecipeBySearch = filteredRecipes;
+  } else {
+    filteredRecipeBySearch = searchRecipes(searchInput.value);
+  }
+  filteredRecipeBySearch.forEach((recipe) => {
     if (
       recipe.hasAllIngredients(selectedIngredients) &&
       recipe.hasAllUstensils(selectedUstensils) &&
@@ -351,3 +357,5 @@ ustensilsDropdownToggleButton.addEventListener("click", (e) => {
 });
 
 init();
+
+//click 2 fois toggle menu --> bug

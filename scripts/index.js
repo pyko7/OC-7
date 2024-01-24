@@ -311,9 +311,21 @@ const handleMainSearch = () => {
 };
 
 searchBtn.addEventListener("click", (e) => {
+  const ingredientsDropdownList = document.getElementById(
+    "ingredients-results-container"
+  );
+  const ustensilsDropdownList = document.getElementById(
+    "ustensils-results-container"
+  );
+  const appliancesDropdownList = document.getElementById(
+    "appliance-results-container"
+  );
   handleMainSearch();
   displayRecipesNumber(filteredRecipes);
-  DropdownMenu.removeDropdownMenuList();
+  ingredientsDropdownMenu?.hideDropdownMenu(ingredientsDropdownList);
+  ustensilsDropdownMenu?.hideDropdownMenu(ustensilsDropdownList);
+  appliancesDropdownMenu?.hideDropdownMenu(appliancesDropdownList);
+  handleDropdownListUpdates();
 });
 
 ingredientsDropdownToggleButton.addEventListener("click", (e) => {
@@ -358,4 +370,5 @@ ustensilsDropdownToggleButton.addEventListener("click", (e) => {
 
 init();
 
-//click 2 fois toggle menu --> bug
+//click 2 fois toggle menu --> bugs
+// keep selected elements when main search

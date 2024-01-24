@@ -179,16 +179,6 @@ export default class DropdownMenu {
   }
 
   /**
-   * @description remove all results lists in dropdown menus
-   */
-  static removeDropdownMenuList() {
-    const dropdownMenus = document.querySelectorAll(
-      ".dropdown-menu-search-container"
-    );
-    dropdownMenus.forEach((menu) => menu.remove());
-  }
-
-  /**
    * @description add selected element of selected list and add the selected element class
    * @param {HTMLUListElement} elementsList DOM ELement reprensenting a list of elements
    * @param {HTMLUListElement} selectedElementsList  DOM ELement reprensenting a list of selected elements

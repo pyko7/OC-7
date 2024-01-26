@@ -8,12 +8,16 @@ export default class DropdownMenu {
    *
    * @param {Object} recipes array of recipes
    * @param {HTMLElement} container dropdown menu container
+   * @param {Function} callbackOnSelect
    * @param {string} name title of dropdown menu
    */
-  constructor(recipes, container, name) {
+  constructor(recipes, container, callbackOnSelect, name) {
     this.recipes = recipes;
     this.container = container;
+    this.callbackOnSelect = callbackOnSelect;
     this.name = name;
+    this.selectedListElement = null;
+    this.listContainer = null;
   }
 
   /**
@@ -43,6 +47,9 @@ export default class DropdownMenu {
     searchButtonIcon.setAttribute("src", "/assets/svg/search-icon-grey.svg");
     searchButtonIcon.setAttribute("alt", "");
 
+    this.listContainer = searchResultsList;
+    this.selectedListElement = selectedListElement;
+
     this.createDropdownMenuList(
       this.recipes,
       searchResultsList,
@@ -66,45 +73,25 @@ export default class DropdownMenu {
    * @param {HTMLDivElement} resultsListContainer DOM Element containing the recipes list
    * @param {HTMLUListElement} selectedList DOM Element of selected items
    */
-  createDropdownMenuList(
-    list,
-    resultsList,
-    resultsListContainer,
-    selectedList
-  ) {
+  createDropdownMenuList(list) {
     const searchResultsListElements = this.getDropdownMenuList(list);
-    if (resultsList) {
-      resultsList.innerHTML = "";
+    if (this.listContainer) {
+      this.listContainer.innerHTML = "";
     }
 
     searchResultsListElements.forEach((element) => {
-      const listElementContainer = document.createElement("li");
-      const listElement = document.createElement("span");
-      const removeElementButton = document.createElement("button");
-      const removeElementIcon = document.createElement("img");
-      removeElementButton.setAttribute("aria-label", "Supprimer le filtre");
-      removeElementButton.setAttribute("type", "button");
-      removeElementIcon.setAttribute(
-        "src",
-        "/assets/svg/close-filled-icon.svg"
-      );
-      removeElementIcon.setAttribute("alt", "");
-      removeElementButton.classList.add(
-        "dropdown-menu-item-remove-button-hidden"
-      );
-
+      const listElement = document.createElement("li");
       listElement.textContent = ucFirst(element);
-      removeElementButton.appendChild(removeElementIcon);
-      listElementContainer.appendChild(listElement);
-      listElementContainer.appendChild(removeElementButton);
-      resultsList.appendChild(listElementContainer);
-      selectedList?.childNodes.forEach((children) => {
-        if (children.textContent.toLowerCase().trim() === element) {
-          resultsList.removeChild(listElementContainer);
-        }
+      listElement.addEventListener("click", () => {
+        this.callbackOnSelect(element);
       });
+      this.listContainer.appendChild(listElement);
+      // selectedList?.childNodes.forEach((children) => {
+      //   if (children.textContent.toLowerCase().trim() === element) {
+      //     resultsList.removeChild(listElementContainer);
+      //   }
+      // });
     });
-    resultsListContainer.appendChild(resultsList);
   }
 
   /**
@@ -186,31 +173,44 @@ export default class DropdownMenu {
    * @param {HTMLLIElement} element DOM element clicked by the user
    * @returns {Object} updated array of selected dropdown menu items
    */
-  static addSelectedElement(
-    elementsList,
-    selectedElementsList,
-    selectedElements,
-    element
-  ) {
-    let removeSelectedElementButton = undefined;
+  addSelectedElement(selectedElements) {
+    this.selectedListElement.innerHTML = ``;
+    selectedElements.forEach((el) => {
+      const listElement = document.createElement("li");
+      const listElementText = document.createElement("span");
+      const removeSelectedElementButton = document.createElement("button");
+      const removeSelectedElementIcon = document.createElement("img");
+      listElement.classList.add("dropdown-menu-item-selected");
 
-    element.childNodes.forEach((node) => {
-      if (node.nodeName === "BUTTON") {
-        removeSelectedElementButton = node;
-      }
+      removeSelectedElementButton.setAttribute(
+        "aria-label",
+        "Supprimer le filtre"
+      );
+      removeSelectedElementButton.setAttribute("type", "button");
+      removeSelectedElementIcon.setAttribute(
+        "src",
+        "/assets/svg/close-filled-icon.svg"
+      );
+      removeSelectedElementIcon.setAttribute("alt", "");
+      removeSelectedElementButton.classList.add(
+        "dropdown-menu-item-remove-button"
+      );
+
+      listElementText.textContent = ucFirst(el);
+      removeSelectedElementButton.appendChild(removeSelectedElementIcon);
+      listElement.appendChild(listElementText);
+      listElement.appendChild(removeSelectedElementButton);
+      this.selectedListElement.appendChild(listElement);
     });
 
-    removeSelectedElementButton.classList.add(
-      "dropdown-menu-item-remove-button"
-    );
-    removeSelectedElementButton.classList.remove(
-      "dropdown-menu-item-remove-button-hidden"
-    );
-    element.classList.add("dropdown-menu-item-selected");
-    selectedElements.push(element.textContent);
-    elementsList.removeChild(element);
-    selectedElementsList.appendChild(element);
-    return selectedElements;
+    // removeSelectedElementButton.classList.remove(
+    //   "dropdown-menu-item-remove-button-hidden"
+    // );
+    // element.classList.add("dropdown-menu-item-selected");
+    // selectedElements.push(element.textContent);
+    // elementsList.removeChild(element);
+    // selectedElementsList.appendChild(element);
+    // return selectedElements;
   }
 
   /**
@@ -295,5 +295,10 @@ export default class DropdownMenu {
       );
     }
     return selectedElements;
+  }
+
+  updateDropdownMenuList(list) {
+    this.listContainer.innerHTML = ``;
+    this.createDropdownMenuList(list);
   }
 }

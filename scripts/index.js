@@ -1,6 +1,7 @@
 import { recipes } from "./utils/recipes.js";
 import Recipe from "./class/Recipe.js";
 import DropdownMenu from "./class/DropdownMenu.js";
+import { ucFirst } from "./utils/utils.js";
 
 const searchInput = document.getElementById("search-input");
 const searchBtn = document.getElementById("search-btn");
@@ -32,6 +33,19 @@ let selectedUstensils = [];
 let ingredientsDropdownMenu = undefined;
 let ustensilsDropdownMenu = undefined;
 let appliancesDropdownMenu = undefined;
+
+const selectAnIngredient = (ingredient) => {
+  if (selectedIngredients.includes(ingredient)) {
+    selectedIngredients.splice(selectedIngredients.indexOf(ingredient), 1);
+  } else {
+    selectedIngredients.push(ingredient);
+  }
+  console.log(selectedIngredients);
+  ingredientsDropdownMenu.addSelectedElement(selectedIngredients);
+  filterRecipes();
+  displayRecipes(filteredRecipes);
+  handleDropdownListUpdates();
+};
 
 const handleRecipesList = () => {
   return filteredRecipes.length > 0 ? filteredRecipes : recipeClasses;
@@ -104,16 +118,9 @@ const searchRecipes = (searchValue) => {
 
 /**
  * @description filter recipes with dropdown menus
- * @param {Object} selectedIngredients array of selected ingredients
- * @param {Object} selectedUstensils array of selected ustensils
- * @param {Object} selectedAppliances array of selected appliances
  * @returns {Object} array of corresponding recipes
  */
-const filteredRecipesByDropdown = (
-  selectedIngredients,
-  selectedUstensils,
-  selectedAppliances
-) => {
+const filterRecipes = () => {
   let recipesFilteredByDropdown = [];
   let filteredRecipeBySearch = [];
   if (searchInput.value.length < 3 && searchInput.value.length !== 0) {
@@ -130,7 +137,7 @@ const filteredRecipesByDropdown = (
       recipesFilteredByDropdown.push(recipe);
     }
   });
-  return recipesFilteredByDropdown;
+  filteredRecipes = recipesFilteredByDropdown;
 };
 
 /**
@@ -214,58 +221,51 @@ const handleDropdownListUpdates = () => {
   const ustensilsListContainer = document.getElementById("ustensils-results");
 
   if (ingredientsList && ingredientsListContainer) {
-    const selectedIngredientsList = document.getElementById(
-      "ingredients-list-selected"
-    );
-    ingredientsDropdownMenu.createDropdownMenuList(
-      filteredRecipes,
-      ingredientsList,
-      ingredientsListContainer,
-      selectedIngredientsList
-    );
-    filterRecipesByIngredients();
+    ingredientsDropdownMenu.updateDropdownMenuList(filteredRecipes);
+    // filterRecipesByIngredients();
   }
-  if (appliancesList && appliancesListContainer) {
-    const selectedAppliancesList = document.getElementById(
-      "appliance-list-selected"
-    );
-    appliancesDropdownMenu.createDropdownMenuList(
-      filteredRecipes,
-      appliancesList,
-      appliancesListContainer,
-      selectedAppliancesList
-    );
-    filterRecipesByAppliances();
-  }
-  if (ustensilsList && ustensilsListContainer) {
-    const selectedUstensilsList = document.getElementById(
-      "ustensils-list-selected"
-    );
+  // if (appliancesList && appliancesListContainer) {
+  //   const selectedAppliancesList = document.getElementById(
+  //     "appliance-list-selected"
+  //   );
+  //   appliancesDropdownMenu.createDropdownMenuList(
+  //     filteredRecipes,
+  //     appliancesList,
+  //     appliancesListContainer,
+  //     selectedAppliancesList
+  //   );
+  //   filterRecipesByAppliances();
+  // }
+  // if (ustensilsList && ustensilsListContainer) {
+  //   const selectedUstensilsList = document.getElementById(
+  //     "ustensils-list-selected"
+  //   );
 
-    ustensilsDropdownMenu.createDropdownMenuList(
-      filteredRecipes,
-      ustensilsList,
-      ustensilsListContainer,
-      selectedUstensilsList
-    );
-    filterRecipesByUstensils();
-  }
+  //   ustensilsDropdownMenu.createDropdownMenuList(
+  //     filteredRecipes,
+  //     ustensilsList,
+  //     ustensilsListContainer,
+  //     selectedUstensilsList
+  //   );
+  //   filterRecipesByUstensils();
+  // }
 };
 
 /**
  * @description filter recipes by ingredients and display them
  *
  */
-const filterRecipesByIngredients = () => {
-  const ingredientsList = document.getElementById("ingredients-list");
-
-  ingredientsList.childNodes.forEach((ingredient) => {
-    ingredient.addEventListener("click", () => {
-      handleDisplayedRecipesByIngredients(ingredient);
-      handleDropdownListUpdates();
-    });
-  });
-};
+// const filterRecipesByIngredients = () => {
+//   const ingredientsList = document.getElementById("ingredients-list");
+//   ingredientsList.childNodes.forEach((ingredient) => {
+//     ingredient.addEventListener("click", () => {
+//       console.log({ selectedIngredients });
+//       handleDisplayedRecipesByIngredients(ingredient);
+//       handleDropdownListUpdates();
+//       console.log({ selectedIngredients2: selectedIngredients });
+//     });
+//   });
+// };
 
 /**
  * @description filter recipes by appliances and display them
@@ -320,8 +320,8 @@ searchBtn.addEventListener("click", (e) => {
   const appliancesDropdownList = document.getElementById(
     "appliance-results-container"
   );
-  handleMainSearch();
-  displayRecipesNumber(filteredRecipes);
+  filterRecipes();
+  displayRecipes(filteredRecipes);
   ingredientsDropdownMenu?.hideDropdownMenu(ingredientsDropdownList);
   ustensilsDropdownMenu?.hideDropdownMenu(ustensilsDropdownList);
   appliancesDropdownMenu?.hideDropdownMenu(appliancesDropdownList);
@@ -334,11 +334,12 @@ ingredientsDropdownToggleButton.addEventListener("click", (e) => {
     ingredientsDropdownMenu = new DropdownMenu(
       recipesList,
       ingredientsDropdownMenuContainer,
+      selectAnIngredient,
       "ingredients"
     );
   }
   ingredientsDropdownMenu.handleDropdownMenu();
-  filterRecipesByIngredients();
+  // filterRecipesByIngredients();
 });
 
 appliancesDropdownToggleButton.addEventListener("click", (e) => {
@@ -369,6 +370,3 @@ ustensilsDropdownToggleButton.addEventListener("click", (e) => {
 });
 
 init();
-
-//click 2 fois toggle menu --> bugs
-// keep selected elements when main search

@@ -239,10 +239,6 @@ main {
   background-color: var(--main-color);
 }
 
-.dropdown-menu-item-remove-button-hidden {
-  display: none;
-}
-
 .dropdown-menu-item-remove-button {
   width: 30px;
   height: 30px;

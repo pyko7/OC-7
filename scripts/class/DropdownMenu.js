@@ -245,7 +245,7 @@ export default class DropdownMenu {
     selectedElementsList.removeChild(element);
     elementsList.insertBefore(element, elementsList.firstChild);
     selectedElements = selectedElements.filter(
-      (selectedElement) => selectedElement.textContent === element.textContent
+      (selectedElement) => selectedElement !== element.textContent
     );
     return selectedElements;
   }

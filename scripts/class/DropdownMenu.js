@@ -74,10 +74,16 @@ export default class DropdownMenu {
    * @param {HTMLUListElement} selectedList DOM Element of selected items
    */
   createDropdownMenuList(list) {
-    const searchResultsListElements = this.getDropdownMenuList(list);
+    let searchResultsListElements = this.getDropdownMenuList(list);
+    const listElements = this.selectedListElement?.querySelectorAll("li");
     if (this.listContainer) {
       this.listContainer.innerHTML = "";
     }
+    listElements.forEach((el) => {
+      searchResultsListElements = searchResultsListElements.filter(
+        (e) => e !== el.textContent.toLowerCase().trim()
+      );
+    });
 
     searchResultsListElements.forEach((element) => {
       const listElement = document.createElement("li");
@@ -86,11 +92,6 @@ export default class DropdownMenu {
         this.callbackOnSelect(element);
       });
       this.listContainer.appendChild(listElement);
-      // selectedList?.childNodes.forEach((children) => {
-      //   if (children.textContent.toLowerCase().trim() === element) {
-      //     resultsList.removeChild(listElementContainer);
-      //   }
-      // });
     });
   }
 
@@ -167,11 +168,7 @@ export default class DropdownMenu {
 
   /**
    * @description add selected element of selected list and add the selected element class
-   * @param {HTMLUListElement} elementsList DOM ELement reprensenting a list of elements
-   * @param {HTMLUListElement} selectedElementsList  DOM ELement reprensenting a list of selected elements
    * @param {Object} selectedElements array of selected dropdown menu items
-   * @param {HTMLLIElement} element DOM element clicked by the user
-   * @returns {Object} updated array of selected dropdown menu items
    */
   addSelectedElement(selectedElements) {
     this.selectedListElement.innerHTML = ``;
@@ -201,54 +198,52 @@ export default class DropdownMenu {
       listElement.appendChild(listElementText);
       listElement.appendChild(removeSelectedElementButton);
       this.selectedListElement.appendChild(listElement);
-    });
 
-    // removeSelectedElementButton.classList.remove(
-    //   "dropdown-menu-item-remove-button-hidden"
-    // );
-    // element.classList.add("dropdown-menu-item-selected");
-    // selectedElements.push(element.textContent);
-    // elementsList.removeChild(element);
-    // selectedElementsList.appendChild(element);
-    // return selectedElements;
+      listElement.addEventListener("click", () => {
+        this.callbackOnSelect(el);
+      });
+    });
+  }
+
+  updateDropdownMenuList(list) {
+    this.listContainer.innerHTML = ``;
+    this.createDropdownMenuList(list);
   }
 
   /**
    * @description remove selected element of selected list and remove the selected element class
-   * @param {HTMLUListElement} elementsList DOM ELement reprensenting a list of elements
-   * @param {HTMLUListElement} selectedElementsList  DOM ELement reprensenting a list of selected elements
    * @param {Object} selectedElements array of selected dropdown menu items
-   * @param {HTMLLIElement} element DOM element clicked by the user
-   * @returns {Object} updated array of selected dropdown menu items
    */
-  static removeSelectedElement(
-    elementsList,
-    selectedElementsList,
-    selectedElements,
-    element
-  ) {
-    let removeSelectedElementButton = undefined;
+  // removeSelectedElement(selectedElements) {
+  //   this.selectedListElement.innerHTML = ``;
+  //   selectedElements.forEach((el) => {
+  //     const listElement = document.createElement("li");
+  //     const listElementText = document.createElement("span");
+  //     const removeSelectedElementButton = document.createElement("button");
+  //     const removeSelectedElementIcon = document.createElement("img");
+  //     listElement.classList.add("dropdown-menu-item-selected");
 
-    element.childNodes.forEach((node) => {
-      if (node.nodeName === "BUTTON") {
-        removeSelectedElementButton = node;
-      }
-    });
+  //     removeSelectedElementButton.setAttribute(
+  //       "aria-label",
+  //       "Supprimer le filtre"
+  //     );
+  //     removeSelectedElementButton.setAttribute("type", "button");
+  //     removeSelectedElementIcon.setAttribute(
+  //       "src",
+  //       "/assets/svg/close-filled-icon.svg"
+  //     );
+  //     removeSelectedElementIcon.setAttribute("alt", "");
+  //     removeSelectedElementButton.classList.add(
+  //       "dropdown-menu-item-remove-button"
+  //     );
 
-    removeSelectedElementButton.classList.remove(
-      "dropdown-menu-item-remove-button"
-    );
-    removeSelectedElementButton.classList.add(
-      "dropdown-menu-item-remove-button-hidden"
-    );
-    element.classList.remove("dropdown-menu-item-selected");
-    selectedElementsList.removeChild(element);
-    elementsList.insertBefore(element, elementsList.firstChild);
-    selectedElements = selectedElements.filter(
-      (selectedElement) => selectedElement !== element.textContent
-    );
-    return selectedElements;
-  }
+  //     listElementText.textContent = ucFirst(el);
+  //     removeSelectedElementButton.appendChild(removeSelectedElementIcon);
+  //     listElement.appendChild(listElementText);
+  //     listElement.appendChild(removeSelectedElementButton);
+  //     this.selectedListElement.appendChild(listElement);
+  //   });
+  // }
 
   /**
    * @description handle the selection of clicked element in a dropdown menu
@@ -258,47 +253,42 @@ export default class DropdownMenu {
    * @param {HTMLLIElement} element DOM element clicked by the user
    * @returns {Object} updated array of selected dropdown menu items
    */
-  static handleSelectedElement(
-    elementsList,
-    selectedElementsList,
-    selectedElements,
-    element
-  ) {
-    let removeSelectedElementButton = undefined;
-    let isElementSelected = false;
+  // static handleSelectedElement(
+  //   elementsList,
+  //   selectedElementsList,
+  //   selectedElements,
+  //   element
+  // ) {
+  //   let removeSelectedElementButton = undefined;
+  //   let isElementSelected = false;
 
-    element.childNodes.forEach((node) => {
-      if (node.nodeName === "BUTTON") {
-        removeSelectedElementButton = node;
-      }
-    });
+  //   element.childNodes.forEach((node) => {
+  //     if (node.nodeName === "BUTTON") {
+  //       removeSelectedElementButton = node;
+  //     }
+  //   });
 
-    selectedElementsList.childNodes.forEach((selectedElement) => {
-      if (selectedElement.textContent === element.textContent) {
-        isElementSelected = true;
-      }
-    });
+  //   selectedElementsList.childNodes.forEach((selectedElement) => {
+  //     if (selectedElement.textContent === element.textContent) {
+  //       isElementSelected = true;
+  //     }
+  //   });
 
-    if (isElementSelected) {
-      selectedElements = DropdownMenu.removeSelectedElement(
-        elementsList,
-        selectedElementsList,
-        selectedElements,
-        element
-      );
-    } else {
-      selectedElements = DropdownMenu.addSelectedElement(
-        elementsList,
-        selectedElementsList,
-        selectedElements,
-        element
-      );
-    }
-    return selectedElements;
-  }
-
-  updateDropdownMenuList(list) {
-    this.listContainer.innerHTML = ``;
-    this.createDropdownMenuList(list);
-  }
+  //   if (isElementSelected) {
+  //     selectedElements = DropdownMenu.removeSelectedElement(
+  //       elementsList,
+  //       selectedElementsList,
+  //       selectedElements,
+  //       element
+  //     );
+  //   } else {
+  //     selectedElements = DropdownMenu.addSelectedElement(
+  //       elementsList,
+  //       selectedElementsList,
+  //       selectedElements,
+  //       element
+  //     );
+  //   }
+  //   return selectedElements;
+  // }
 }

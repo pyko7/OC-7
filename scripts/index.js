@@ -40,8 +40,31 @@ const selectAnIngredient = (ingredient) => {
   } else {
     selectedIngredients.push(ingredient);
   }
-  console.log(selectedIngredients);
   ingredientsDropdownMenu.addSelectedElement(selectedIngredients);
+  filterRecipes();
+  displayRecipes(filteredRecipes);
+  handleDropdownListUpdates();
+};
+
+const selectAnAppliance = (appliance) => {
+  if (selectedAppliances.includes(appliance)) {
+    selectedAppliances.splice(selectedAppliances.indexOf(appliance), 1);
+  } else {
+    selectedAppliances.push(appliance);
+  }
+  appliancesDropdownMenu.addSelectedElement(selectedAppliances);
+  filterRecipes();
+  displayRecipes(filteredRecipes);
+  handleDropdownListUpdates();
+};
+
+const selectAnUstensil = (ustensil) => {
+  if (selectedUstensils.includes(ustensil)) {
+    selectedUstensils.splice(selectedUstensils.indexOf(ustensil), 1);
+  } else {
+    selectedUstensils.push(ustensil);
+  }
+  ustensilsDropdownMenu.addSelectedElement(selectedUstensils);
   filterRecipes();
   displayRecipes(filteredRecipes);
   handleDropdownListUpdates();
@@ -224,6 +247,12 @@ const handleDropdownListUpdates = () => {
     ingredientsDropdownMenu.updateDropdownMenuList(filteredRecipes);
     // filterRecipesByIngredients();
   }
+  if (appliancesList && appliancesListContainer) {
+    appliancesDropdownMenu.updateDropdownMenuList(filteredRecipes);
+  }
+  if (ustensilsList && ustensilsListContainer) {
+    ustensilsDropdownMenu.updateDropdownMenuList(filteredRecipes);
+  }
   // if (appliancesList && appliancesListContainer) {
   //   const selectedAppliancesList = document.getElementById(
   //     "appliance-list-selected"
@@ -271,31 +300,31 @@ const handleDropdownListUpdates = () => {
  * @description filter recipes by appliances and display them
  *
  */
-const filterRecipesByAppliances = () => {
-  const appliancesList = document.getElementById("appliance-list");
+// const filterRecipesByAppliances = () => {
+//   const appliancesList = document.getElementById("appliance-list");
 
-  appliancesList.childNodes.forEach((appliance) => {
-    appliance.addEventListener("click", () => {
-      handleDisplayedRecipesByAppliances(appliance);
-      handleDropdownListUpdates();
-    });
-  });
-};
+//   appliancesList.childNodes.forEach((appliance) => {
+//     appliance.addEventListener("click", () => {
+//       handleDisplayedRecipesByAppliances(appliance);
+//       handleDropdownListUpdates();
+//     });
+//   });
+// };
 
-/**
- * @description filter recipes by ustensils and display them
- *
- */
-const filterRecipesByUstensils = () => {
-  const ustensilsList = document.getElementById("ustensils-list");
+// /**
+//  * @description filter recipes by ustensils and display them
+//  *
+//  */
+// const filterRecipesByUstensils = () => {
+//   const ustensilsList = document.getElementById("ustensils-list");
 
-  ustensilsList.childNodes.forEach((ustensil) => {
-    ustensil.addEventListener("click", (e) => {
-      handleDisplayedRecipesByUstensils(ustensil);
-      handleDropdownListUpdates();
-    });
-  });
-};
+//   ustensilsList.childNodes.forEach((ustensil) => {
+//     ustensil.addEventListener("click", (e) => {
+//       handleDisplayedRecipesByUstensils(ustensil);
+//       handleDropdownListUpdates();
+//     });
+//   });
+// };
 
 /**
  * @description create a recipe instance to create new HTML Elements for the search results
@@ -348,12 +377,13 @@ appliancesDropdownToggleButton.addEventListener("click", (e) => {
     appliancesDropdownMenu = new DropdownMenu(
       recipesList,
       applianceDropdownMenuContainer,
+      selectAnAppliance,
       "appliance"
     );
   }
 
   appliancesDropdownMenu.handleDropdownMenu();
-  filterRecipesByAppliances();
+  // filterRecipesByAppliances();
 });
 
 ustensilsDropdownToggleButton.addEventListener("click", (e) => {
@@ -362,11 +392,12 @@ ustensilsDropdownToggleButton.addEventListener("click", (e) => {
     ustensilsDropdownMenu = new DropdownMenu(
       recipesList,
       ustensilsDropdownMenuContainer,
+      selectAnUstensil,
       "ustensils"
     );
   }
   ustensilsDropdownMenu.handleDropdownMenu();
-  filterRecipesByUstensils();
+  // filterRecipesByUstensils();
 });
 
 init();

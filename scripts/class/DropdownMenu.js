@@ -91,7 +91,9 @@ export default class DropdownMenu {
       listElement.addEventListener("click", () => {
         this.callbackOnSelect(element);
         this.searchInput.value = "";
-        const elementTag = new Tag(element);
+        const elementTag = new Tag(element, () =>
+          this.callbackOnSelect(element)
+        );
         const tag = elementTag.createTag();
         tagsContainer.appendChild(tag);
       });

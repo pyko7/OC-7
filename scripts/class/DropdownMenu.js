@@ -18,6 +18,7 @@ export default class DropdownMenu {
     this.name = name;
     this.selectedListElement = null;
     this.listContainer = null;
+    this.searchInput = null;
   }
 
   /**
@@ -42,6 +43,7 @@ export default class DropdownMenu {
     searchResults.setAttribute("id", `${this.name}-results`);
     searchResultsList.setAttribute("id", `${this.name}-list`);
     selectedListElement.setAttribute("id", `${this.name}-list-selected`);
+    searchInput.setAttribute("id", `${this.name}-search-input`);
     searchButton.setAttribute("aria-label", "Rechercher");
     searchButton.setAttribute("type", "button");
     searchButtonIcon.setAttribute("src", "/assets/svg/search-icon-grey.svg");
@@ -49,6 +51,7 @@ export default class DropdownMenu {
 
     this.listContainer = searchResultsList;
     this.selectedListElement = selectedListElement;
+    this.searchInput = searchInput;
 
     this.createDropdownMenuList(this.recipes);
 
@@ -83,6 +86,7 @@ export default class DropdownMenu {
       listElement.textContent = ucFirst(element);
       listElement.addEventListener("click", () => {
         this.callbackOnSelect(element);
+        this.searchInput.value = "";
       });
       this.listContainer.appendChild(listElement);
     });
@@ -205,5 +209,15 @@ export default class DropdownMenu {
   updateDropdownMenuList(list) {
     this.listContainer.innerHTML = ``;
     this.createDropdownMenuList(list);
+  }
+
+  handleDropdownSearch(inputValue) {
+    this.listContainer.childNodes.forEach((element) => {
+      if (!element.textContent.toLowerCase().includes(inputValue)) {
+        element.style.display = "none";
+      } else {
+        element.style.display = "flex";
+      }
+    });
   }
 }

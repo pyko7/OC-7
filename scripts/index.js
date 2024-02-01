@@ -202,6 +202,15 @@ ingredientsDropdownToggleButton.addEventListener("click", (e) => {
     );
   }
   ingredientsDropdownMenu.handleDropdownMenu();
+  const ingredientsSearchInput = document.getElementById(
+    "ingredients-search-input"
+  );
+
+  if (ingredientsSearchInput) {
+    ingredientsSearchInput.addEventListener("input", (e) => {
+      ingredientsDropdownMenu.handleDropdownSearch(e.target.value);
+    });
+  }
 });
 
 appliancesDropdownToggleButton.addEventListener("click", (e) => {
@@ -213,8 +222,15 @@ appliancesDropdownToggleButton.addEventListener("click", (e) => {
       "appliance"
     );
   }
-
   appliancesDropdownMenu.handleDropdownMenu();
+  const appliancesSearchInput = document.getElementById(
+    "appliance-search-input"
+  );
+  if (appliancesSearchInput) {
+    appliancesSearchInput.addEventListener("input", (e) => {
+      appliancesDropdownMenu.handleDropdownSearch(e.target.value);
+    });
+  }
 });
 
 ustensilsDropdownToggleButton.addEventListener("click", (e) => {
@@ -227,6 +243,14 @@ ustensilsDropdownToggleButton.addEventListener("click", (e) => {
     );
   }
   ustensilsDropdownMenu.handleDropdownMenu();
+  const ustensilsSearchInput = document.getElementById(
+    "ustensils-search-input"
+  );
+  if (ustensilsSearchInput) {
+    ustensilsSearchInput.addEventListener("input", (e) => {
+      ustensilsDropdownMenu.handleDropdownSearch(e.target.value);
+    });
+  }
 });
 
 init();

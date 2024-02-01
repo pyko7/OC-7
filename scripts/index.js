@@ -69,11 +69,6 @@ const selectAnUstensil = (ustensil) => {
   handleDropdownListUpdates();
 };
 
-//enlever
-const handleRecipesList = () => {
-  return filteredRecipes;
-};
-
 /**
  * @description displays the number of recipes
  * @param {Object} recipesList list of recipes
@@ -164,17 +159,10 @@ const filterRecipes = () => {
   filteredRecipes = recipesFilteredByDropdown;
 };
 
+/**
+ * @description update dropdown list content
+ */
 const handleDropdownListUpdates = () => {
-  const ingredientsList = document.getElementById("ingredients-list");
-  const ingredientsListContainer = document.getElementById(
-    "ingredients-results"
-  );
-
-  const appliancesList = document.getElementById("appliance-list");
-  const appliancesListContainer = document.getElementById("appliance-results");
-  const ustensilsList = document.getElementById("ustensils-list");
-  const ustensilsListContainer = document.getElementById("ustensils-results");
-
   if (ingredientsDropdownMenu) {
     ingredientsDropdownMenu.updateDropdownMenuList(filteredRecipes);
   }
@@ -183,19 +171,6 @@ const handleDropdownListUpdates = () => {
   }
   if (ustensilsDropdownMenu) {
     ustensilsDropdownMenu.updateDropdownMenuList(filteredRecipes);
-  }
-};
-
-/**
- * @description create a recipe instance to create new HTML Elements for the search results
- *
- */
-const handleMainSearch = () => {
-  if (searchInput.value.length < 3 && searchInput.value.length !== 0) {
-    return;
-  } else {
-    filteredRecipes = searchRecipes(searchInput.value);
-    displayRecipes(filteredRecipes);
   }
 };
 
@@ -218,10 +193,9 @@ searchBtn.addEventListener("click", (e) => {
 });
 
 ingredientsDropdownToggleButton.addEventListener("click", (e) => {
-  const recipesList = handleRecipesList();
   if (!ingredientsDropdownMenu) {
     ingredientsDropdownMenu = new DropdownMenu(
-      recipesList,
+      filteredRecipes,
       ingredientsDropdownMenuContainer,
       selectAnIngredient,
       "ingredients"
@@ -231,10 +205,9 @@ ingredientsDropdownToggleButton.addEventListener("click", (e) => {
 });
 
 appliancesDropdownToggleButton.addEventListener("click", (e) => {
-  const recipesList = handleRecipesList();
   if (!appliancesDropdownMenu) {
     appliancesDropdownMenu = new DropdownMenu(
-      recipesList,
+      filteredRecipes,
       applianceDropdownMenuContainer,
       selectAnAppliance,
       "appliance"
@@ -245,10 +218,9 @@ appliancesDropdownToggleButton.addEventListener("click", (e) => {
 });
 
 ustensilsDropdownToggleButton.addEventListener("click", (e) => {
-  const recipesList = handleRecipesList();
   if (!ustensilsDropdownMenu) {
     ustensilsDropdownMenu = new DropdownMenu(
-      recipesList,
+      filteredRecipes,
       ustensilsDropdownMenuContainer,
       selectAnUstensil,
       "ustensils"

@@ -136,6 +136,7 @@ export default class DropdownMenu {
 
   /**
    * @description get the displayed list in the dropdown menu
+   * @param {Object} list array of recipes
    * @returns {Object} displayed list in the dropdown menu
    */
   getDropdownMenuList(recipesList) {
@@ -197,7 +198,10 @@ export default class DropdownMenu {
       });
     });
   }
-
+  /**
+   * @description clear dropdown content then create a new list
+   * @param {Object} list array of recipes
+   */
   updateDropdownMenuList(list) {
     this.listContainer.innerHTML = ``;
     this.createDropdownMenuList(list);

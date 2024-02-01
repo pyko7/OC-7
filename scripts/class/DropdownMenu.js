@@ -50,11 +50,7 @@ export default class DropdownMenu {
     this.listContainer = searchResultsList;
     this.selectedListElement = selectedListElement;
 
-    this.createDropdownMenuList(
-      this.recipes,
-      searchResultsList,
-      searchResultsContainer
-    );
+    this.createDropdownMenuList(this.recipes);
 
     searchResultsContainer.appendChild(searchResults);
     searchInputContainer.appendChild(searchInput);
@@ -69,9 +65,6 @@ export default class DropdownMenu {
   /**
    * @description create recipes list in DOM
    * @param {Object} list array of recipes
-   * @param {HTMLUListElement} resultsList DOM Element containing recipes
-   * @param {HTMLDivElement} resultsListContainer DOM Element containing the recipes list
-   * @param {HTMLUListElement} selectedList DOM Element of selected items
    */
   createDropdownMenuList(list) {
     let searchResultsListElements = this.getDropdownMenuList(list);
@@ -209,86 +202,4 @@ export default class DropdownMenu {
     this.listContainer.innerHTML = ``;
     this.createDropdownMenuList(list);
   }
-
-  /**
-   * @description remove selected element of selected list and remove the selected element class
-   * @param {Object} selectedElements array of selected dropdown menu items
-   */
-  // removeSelectedElement(selectedElements) {
-  //   this.selectedListElement.innerHTML = ``;
-  //   selectedElements.forEach((el) => {
-  //     const listElement = document.createElement("li");
-  //     const listElementText = document.createElement("span");
-  //     const removeSelectedElementButton = document.createElement("button");
-  //     const removeSelectedElementIcon = document.createElement("img");
-  //     listElement.classList.add("dropdown-menu-item-selected");
-
-  //     removeSelectedElementButton.setAttribute(
-  //       "aria-label",
-  //       "Supprimer le filtre"
-  //     );
-  //     removeSelectedElementButton.setAttribute("type", "button");
-  //     removeSelectedElementIcon.setAttribute(
-  //       "src",
-  //       "/assets/svg/close-filled-icon.svg"
-  //     );
-  //     removeSelectedElementIcon.setAttribute("alt", "");
-  //     removeSelectedElementButton.classList.add(
-  //       "dropdown-menu-item-remove-button"
-  //     );
-
-  //     listElementText.textContent = ucFirst(el);
-  //     removeSelectedElementButton.appendChild(removeSelectedElementIcon);
-  //     listElement.appendChild(listElementText);
-  //     listElement.appendChild(removeSelectedElementButton);
-  //     this.selectedListElement.appendChild(listElement);
-  //   });
-  // }
-
-  /**
-   * @description handle the selection of clicked element in a dropdown menu
-   * @param {HTMLUListElement} elementsList DOM ELement reprensenting a list of elements
-   * @param {HTMLUListElement} selectedElementsList  DOM ELement reprensenting a list of selected elements
-   * @param {Object} selectedElements array of selected dropdown menu items
-   * @param {HTMLLIElement} element DOM element clicked by the user
-   * @returns {Object} updated array of selected dropdown menu items
-   */
-  // static handleSelectedElement(
-  //   elementsList,
-  //   selectedElementsList,
-  //   selectedElements,
-  //   element
-  // ) {
-  //   let removeSelectedElementButton = undefined;
-  //   let isElementSelected = false;
-
-  //   element.childNodes.forEach((node) => {
-  //     if (node.nodeName === "BUTTON") {
-  //       removeSelectedElementButton = node;
-  //     }
-  //   });
-
-  //   selectedElementsList.childNodes.forEach((selectedElement) => {
-  //     if (selectedElement.textContent === element.textContent) {
-  //       isElementSelected = true;
-  //     }
-  //   });
-
-  //   if (isElementSelected) {
-  //     selectedElements = DropdownMenu.removeSelectedElement(
-  //       elementsList,
-  //       selectedElementsList,
-  //       selectedElements,
-  //       element
-  //     );
-  //   } else {
-  //     selectedElements = DropdownMenu.addSelectedElement(
-  //       elementsList,
-  //       selectedElementsList,
-  //       selectedElements,
-  //       element
-  //     );
-  //   }
-  //   return selectedElements;
-  // }
 }

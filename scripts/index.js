@@ -1,7 +1,6 @@
 import { recipes } from "./utils/recipes.js";
 import Recipe from "./class/Recipe.js";
 import DropdownMenu from "./class/DropdownMenu.js";
-import { ucFirst } from "./utils/utils.js";
 
 const searchInput = document.getElementById("search-input");
 const searchBtn = document.getElementById("search-btn");
@@ -70,8 +69,9 @@ const selectAnUstensil = (ustensil) => {
   handleDropdownListUpdates();
 };
 
+//enlever
 const handleRecipesList = () => {
-  return filteredRecipes.length > 0 ? filteredRecipes : recipeClasses;
+  return filteredRecipes;
 };
 
 /**
@@ -117,6 +117,7 @@ const init = () => {
     recipeClasses.push(recipeClass);
   });
   displayRecipes(recipeClasses);
+  filteredRecipes = recipeClasses;
 };
 
 /**
@@ -163,75 +164,6 @@ const filterRecipes = () => {
   filteredRecipes = recipesFilteredByDropdown;
 };
 
-/**
- * @description handle selected ingredients and display the list of selected/not selected ingredients
- * @param {HTMLLIElement} ingredient DOM element clicked by the user
- */
-const handleDisplayedRecipesByIngredients = (ingredient) => {
-  const ingredientsList = document.getElementById("ingredients-list");
-  const selectedIngredientsList = document.getElementById(
-    "ingredients-list-selected"
-  );
-  selectedIngredients = DropdownMenu.handleSelectedElement(
-    ingredientsList,
-    selectedIngredientsList,
-    selectedIngredients,
-    ingredient
-  );
-  filteredRecipes = filteredRecipesByDropdown(
-    selectedIngredients,
-    selectedUstensils,
-    selectedAppliances
-  );
-  displayRecipes(filteredRecipes);
-};
-
-/**
- * @description handle selected ustensils and display the list of selected/not selected ustensils
- * @param {HTMLLIElement} ustensil DOM element clicked by the user
- */
-const handleDisplayedRecipesByUstensils = (ustensil) => {
-  const ustensilsList = document.getElementById("ustensils-list");
-  const selectedUstensilsList = document.getElementById(
-    "ustensils-list-selected"
-  );
-  selectedUstensils = DropdownMenu.handleSelectedElement(
-    ustensilsList,
-    selectedUstensilsList,
-    selectedUstensils,
-    ustensil
-  );
-  filteredRecipes = filteredRecipesByDropdown(
-    selectedIngredients,
-    selectedUstensils,
-    selectedAppliances
-  );
-  displayRecipes(filteredRecipes);
-};
-
-/**
- * @description handle selected appliances and display the list of selected/not selected appliances
- * @param {HTMLLIElement} appliance DOM element clicked by the user
- */
-const handleDisplayedRecipesByAppliances = (appliance) => {
-  const appliancesList = document.getElementById("appliance-list");
-  const selectedAppliancesList = document.getElementById(
-    "appliance-list-selected"
-  );
-  selectedAppliances = DropdownMenu.handleSelectedElement(
-    appliancesList,
-    selectedAppliancesList,
-    selectedAppliances,
-    appliance
-  );
-  filteredRecipes = filteredRecipesByDropdown(
-    selectedIngredients,
-    selectedUstensils,
-    selectedAppliances
-  );
-  displayRecipes(filteredRecipes);
-};
-
 const handleDropdownListUpdates = () => {
   const ingredientsList = document.getElementById("ingredients-list");
   const ingredientsListContainer = document.getElementById(
@@ -243,88 +175,16 @@ const handleDropdownListUpdates = () => {
   const ustensilsList = document.getElementById("ustensils-list");
   const ustensilsListContainer = document.getElementById("ustensils-results");
 
-  if (ingredientsList && ingredientsListContainer) {
+  if (ingredientsDropdownMenu) {
     ingredientsDropdownMenu.updateDropdownMenuList(filteredRecipes);
-    // filterRecipesByIngredients();
   }
-  if (appliancesList && appliancesListContainer) {
+  if (appliancesDropdownMenu) {
     appliancesDropdownMenu.updateDropdownMenuList(filteredRecipes);
   }
-  if (ustensilsList && ustensilsListContainer) {
+  if (ustensilsDropdownMenu) {
     ustensilsDropdownMenu.updateDropdownMenuList(filteredRecipes);
   }
-  // if (appliancesList && appliancesListContainer) {
-  //   const selectedAppliancesList = document.getElementById(
-  //     "appliance-list-selected"
-  //   );
-  //   appliancesDropdownMenu.createDropdownMenuList(
-  //     filteredRecipes,
-  //     appliancesList,
-  //     appliancesListContainer,
-  //     selectedAppliancesList
-  //   );
-  //   filterRecipesByAppliances();
-  // }
-  // if (ustensilsList && ustensilsListContainer) {
-  //   const selectedUstensilsList = document.getElementById(
-  //     "ustensils-list-selected"
-  //   );
-
-  //   ustensilsDropdownMenu.createDropdownMenuList(
-  //     filteredRecipes,
-  //     ustensilsList,
-  //     ustensilsListContainer,
-  //     selectedUstensilsList
-  //   );
-  //   filterRecipesByUstensils();
-  // }
 };
-
-/**
- * @description filter recipes by ingredients and display them
- *
- */
-// const filterRecipesByIngredients = () => {
-//   const ingredientsList = document.getElementById("ingredients-list");
-//   ingredientsList.childNodes.forEach((ingredient) => {
-//     ingredient.addEventListener("click", () => {
-//       console.log({ selectedIngredients });
-//       handleDisplayedRecipesByIngredients(ingredient);
-//       handleDropdownListUpdates();
-//       console.log({ selectedIngredients2: selectedIngredients });
-//     });
-//   });
-// };
-
-/**
- * @description filter recipes by appliances and display them
- *
- */
-// const filterRecipesByAppliances = () => {
-//   const appliancesList = document.getElementById("appliance-list");
-
-//   appliancesList.childNodes.forEach((appliance) => {
-//     appliance.addEventListener("click", () => {
-//       handleDisplayedRecipesByAppliances(appliance);
-//       handleDropdownListUpdates();
-//     });
-//   });
-// };
-
-// /**
-//  * @description filter recipes by ustensils and display them
-//  *
-//  */
-// const filterRecipesByUstensils = () => {
-//   const ustensilsList = document.getElementById("ustensils-list");
-
-//   ustensilsList.childNodes.forEach((ustensil) => {
-//     ustensil.addEventListener("click", (e) => {
-//       handleDisplayedRecipesByUstensils(ustensil);
-//       handleDropdownListUpdates();
-//     });
-//   });
-// };
 
 /**
  * @description create a recipe instance to create new HTML Elements for the search results
@@ -368,7 +228,6 @@ ingredientsDropdownToggleButton.addEventListener("click", (e) => {
     );
   }
   ingredientsDropdownMenu.handleDropdownMenu();
-  // filterRecipesByIngredients();
 });
 
 appliancesDropdownToggleButton.addEventListener("click", (e) => {
@@ -383,7 +242,6 @@ appliancesDropdownToggleButton.addEventListener("click", (e) => {
   }
 
   appliancesDropdownMenu.handleDropdownMenu();
-  // filterRecipesByAppliances();
 });
 
 ustensilsDropdownToggleButton.addEventListener("click", (e) => {
@@ -397,7 +255,6 @@ ustensilsDropdownToggleButton.addEventListener("click", (e) => {
     );
   }
   ustensilsDropdownMenu.handleDropdownMenu();
-  // filterRecipesByUstensils();
 });
 
 init();

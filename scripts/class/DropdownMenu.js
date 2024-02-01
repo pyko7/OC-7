@@ -1,3 +1,4 @@
+import { Tag } from "./Tag.js";
 import { removeDuplicates, ucFirst } from "../utils/utils.js";
 
 /**
@@ -70,6 +71,9 @@ export default class DropdownMenu {
    * @param {Object} list array of recipes
    */
   createDropdownMenuList(list) {
+    const tagsContainer = document.getElementById(
+      `${this.name}-tags-container`
+    );
     let searchResultsListElements = this.getDropdownMenuList(list);
     const listElements = this.selectedListElement?.querySelectorAll("li");
     if (this.listContainer) {
@@ -87,6 +91,9 @@ export default class DropdownMenu {
       listElement.addEventListener("click", () => {
         this.callbackOnSelect(element);
         this.searchInput.value = "";
+        const elementTag = new Tag(element);
+        const tag = elementTag.createTag();
+        tagsContainer.appendChild(tag);
       });
       this.listContainer.appendChild(listElement);
     });

@@ -174,7 +174,7 @@ const handleDropdownListUpdates = () => {
   }
 };
 
-searchBtn.addEventListener("click", (e) => {
+searchBtn.addEventListener("click", () => {
   const ingredientsDropdownList = document.getElementById(
     "ingredients-results-container"
   );
@@ -192,7 +192,7 @@ searchBtn.addEventListener("click", (e) => {
   handleDropdownListUpdates();
 });
 
-ingredientsDropdownToggleButton.addEventListener("click", (e) => {
+ingredientsDropdownToggleButton.addEventListener("click", () => {
   if (!ingredientsDropdownMenu) {
     ingredientsDropdownMenu = new DropdownMenu(
       filteredRecipes,
@@ -213,7 +213,7 @@ ingredientsDropdownToggleButton.addEventListener("click", (e) => {
   }
 });
 
-appliancesDropdownToggleButton.addEventListener("click", (e) => {
+appliancesDropdownToggleButton.addEventListener("click", () => {
   if (!appliancesDropdownMenu) {
     appliancesDropdownMenu = new DropdownMenu(
       filteredRecipes,
@@ -233,7 +233,7 @@ appliancesDropdownToggleButton.addEventListener("click", (e) => {
   }
 });
 
-ustensilsDropdownToggleButton.addEventListener("click", (e) => {
+ustensilsDropdownToggleButton.addEventListener("click", () => {
   if (!ustensilsDropdownMenu) {
     ustensilsDropdownMenu = new DropdownMenu(
       filteredRecipes,

@@ -35,7 +35,9 @@ let appliancesDropdownMenu = undefined;
 
 const selectAnIngredient = (ingredient) => {
   if (selectedIngredients.includes(ingredient)) {
+    const tag = document.getElementById(`${ingredient}-tag`);
     selectedIngredients.splice(selectedIngredients.indexOf(ingredient), 1);
+    tag.remove();
   } else {
     selectedIngredients.push(ingredient);
   }
@@ -47,7 +49,9 @@ const selectAnIngredient = (ingredient) => {
 
 const selectAnAppliance = (appliance) => {
   if (selectedAppliances.includes(appliance)) {
+    const tag = document.getElementById(`${appliance}-tag`);
     selectedAppliances.splice(selectedAppliances.indexOf(appliance), 1);
+    tag.remove();
   } else {
     selectedAppliances.push(appliance);
   }
@@ -59,7 +63,9 @@ const selectAnAppliance = (appliance) => {
 
 const selectAnUstensil = (ustensil) => {
   if (selectedUstensils.includes(ustensil)) {
+    const tag = document.getElementById(`${ustensil}-tag`);
     selectedUstensils.splice(selectedUstensils.indexOf(ustensil), 1);
+    tag.remove();
   } else {
     selectedUstensils.push(ustensil);
   }

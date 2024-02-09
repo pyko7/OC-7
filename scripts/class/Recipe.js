@@ -73,18 +73,18 @@ export default class Recipe {
     recipeIngredientsSubtitle.textContent = "ingrédients";
     recipeDescription.textContent = this.description;
 
-    this.ingredients.forEach((ingredient) => {
+    for (let i = 0; i < this.ingredients.length; i++) {
       recipeIngredients.innerHTML += `
-                <div>
-                  <span class="recipe-ingredient-name">${
-                    ingredient.ingredient
-                  }</span>
-                  <span class="recipe-ingredient-quantity">${
-                    ingredient.quantity ?? ""
-                  } ${ingredient.unit ?? ""}</span>
-                </div>
-                `;
-    });
+        <div>
+          <span class="recipe-ingredient-name">${
+            this.ingredients[i].ingredient
+          }</span>
+          <span class="recipe-ingredient-quantity">${
+            this.ingredients[i].quantity ?? ""
+          } ${this.ingredients[i].unit ?? ""}</span>
+        </div>
+        `;
+    }
 
     recipeContent.appendChild(recipeRecipeSubtitle);
     recipeContent.appendChild(recipeDescription);
@@ -125,15 +125,16 @@ export default class Recipe {
    */
   ingredientsContains(value) {
     let isIngredientsContained = false;
-    this.ingredients.forEach((ingredient) => {
+    for (let i = 0; i < this.ingredients.length; i++) {
       if (
-        ingredient.ingredient
+        this.ingredients[i].ingredient
           .toLocaleLowerCase()
           .includes(value.toLowerCase().trim())
       ) {
         isIngredientsContained = true;
       }
-    });
+    }
+
     return isIngredientsContained;
   }
 

@@ -85,20 +85,20 @@ export default class DropdownMenu {
       );
     });
 
-    searchResultsListElements.forEach((element) => {
+    for (let i = 0; i < searchResultsListElements.length; i++) {
       const listElement = document.createElement("li");
-      listElement.textContent = ucFirst(element);
+      listElement.textContent = ucFirst(searchResultsListElements[i]);
       listElement.addEventListener("click", () => {
-        this.callbackOnSelect(element);
+        this.callbackOnSelect(searchResultsListElements[i]);
         this.searchInput.value = "";
-        const elementTag = new Tag(element, () =>
-          this.callbackOnSelect(element)
+        const elementTag = new Tag(searchResultsListElements[i], () =>
+          this.callbackOnSelect(searchResultsListElements[i])
         );
         const tag = elementTag.createTag();
         tagsContainer.appendChild(tag);
       });
       this.listContainer.appendChild(listElement);
-    });
+    }
   }
 
   /**
@@ -154,21 +154,27 @@ export default class DropdownMenu {
    */
   getDropdownMenuList(recipesList) {
     let list = [];
-    recipesList.forEach((recipe) => {
+
+    for (let i = 0; i < recipesList.length; i++) {
       if (this.name === "ingredients") {
-        recipe.ingredients.forEach((ingredient) => {
-          const recipeIngredient = ingredient.ingredient.toLowerCase().trim();
+        for (let j = 0; j < recipesList[i].ingredients.length; j++) {
+          const recipeIngredient = recipesList[i].ingredients[j].ingredient
+            .toLowerCase()
+            .trim();
           list.push(recipeIngredient);
-        });
+        }
       } else if (this.name === "ustensils") {
-        recipe.ustensils.forEach((ustensil) => {
-          const recipeUstensils = ustensil.toLowerCase().trim();
+        for (let j = 0; j < recipesList[i].ustensils.length; j++) {
+          const recipeUstensils = recipesList[i].ustensils[j].ustensil
+            .toLowerCase()
+            .trim();
           list.push(recipeUstensils);
-        });
+        }
       } else {
-        list.push(recipe.appliance.toLowerCase().trim());
+        list.push(recipesList[i].appliance.toLowerCase().trim());
       }
-    });
+    }
+
     list = removeDuplicates(list);
     return list;
   }

@@ -93,9 +93,9 @@ const displayRecipesNumber = (recipesList) => {
  */
 const displayRecipes = (recipesList) => {
   recipeCardsContainer.innerHTML = "";
-  recipesList.forEach((recipe) => {
-    recipe.createBaseCard();
-  });
+  for (let i = 0; i < recipesList.length; i++) {
+    recipesList[i].createBaseCard();
+  }
   displayRecipesNumber(recipesList);
 };
 
@@ -103,20 +103,20 @@ const displayRecipes = (recipesList) => {
  * @description display default recipes
  */
 const init = () => {
-  recipes.forEach((recipe) => {
+  for (let i = 0; i < recipes.length; i++) {
     const recipeClass = new Recipe(
-      recipe.id,
-      recipe.image,
-      recipe.name,
-      recipe.servings,
-      recipe.ingredients,
-      recipe.time,
-      recipe.description,
-      recipe.appliance,
-      recipe.ustensils
+      recipes[i].id,
+      recipes[i].image,
+      recipes[i].name,
+      recipes[i].servings,
+      recipes[i].ingredients,
+      recipes[i].time,
+      recipes[i].description,
+      recipes[i].appliance,
+      recipes[i].ustensils
     );
     recipeClasses.push(recipeClass);
-  });
+  }
   displayRecipes(recipeClasses);
   filteredRecipes = recipeClasses;
 };
@@ -128,15 +128,14 @@ const init = () => {
  */
 const searchRecipes = (searchValue) => {
   let results = [];
-  recipeClasses.forEach((recipe) => {
+  for (let i = 0; i < recipeClasses.length; i++)
     if (
-      recipe.titleContains(searchValue) ||
-      recipe.descriptionContains(searchValue) ||
-      recipe.ingredientsContains(searchValue)
+      recipeClasses[i].titleContains(searchValue) ||
+      recipeClasses[i].descriptionContains(searchValue) ||
+      recipeClasses[i].ingredientsContains(searchValue)
     ) {
-      results.push(recipe);
+      results.push(recipeClasses[i]);
     }
-  });
 
   return results;
 };
@@ -153,18 +152,18 @@ const filterRecipes = () => {
   } else {
     filteredRecipeBySearch = searchRecipes(searchInput.value);
   }
-  filteredRecipeBySearch.forEach((recipe) => {
+  for (let i = 0; i < filteredRecipeBySearch.length; i++) {
     if (
-      recipe.hasAllIngredients(selectedIngredients) &&
-      recipe.hasAllUstensils(selectedUstensils) &&
-      recipe.hasAppliance(selectedAppliances)
+      filteredRecipeBySearch[i].hasAllIngredients(selectedIngredients) &&
+      filteredRecipeBySearch[i].hasAllUstensils(selectedUstensils) &&
+      filteredRecipeBySearch[i].hasAppliance(selectedAppliances)
     ) {
-      recipesFilteredByDropdown.push(recipe);
+      recipesFilteredByDropdown.push(filteredRecipeBySearch[i]);
     }
-  });
+  }
+
   filteredRecipes = recipesFilteredByDropdown;
 };
-
 /**
  * @description update dropdown list content
  */

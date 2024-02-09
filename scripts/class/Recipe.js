@@ -124,18 +124,17 @@ export default class Recipe {
    * @returns {boolean} true if the value in contained
    */
   ingredientsContains(value) {
-    let isIngredientsContained = false;
     for (let i = 0; i < this.ingredients.length; i++) {
       if (
         this.ingredients[i].ingredient
           .toLocaleLowerCase()
           .includes(value.toLowerCase().trim())
       ) {
-        isIngredientsContained = true;
+        return true;
       }
     }
 
-    return isIngredientsContained;
+    return false;
   }
 
   hasAllIngredients(ingredients) {

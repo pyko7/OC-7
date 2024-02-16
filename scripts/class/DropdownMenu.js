@@ -165,7 +165,7 @@ export default class DropdownMenu {
         }
       } else if (this.name === "ustensils") {
         for (let j = 0; j < recipesList[i].ustensils.length; j++) {
-          const recipeUstensils = recipesList[i].ustensils[j].ustensil
+          const recipeUstensils = recipesList[i].ustensils[j]
             .toLowerCase()
             .trim();
           list.push(recipeUstensils);

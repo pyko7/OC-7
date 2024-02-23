@@ -47,7 +47,7 @@ export default class DropdownMenu {
     searchInput.setAttribute("id", `${this.name}-search-input`);
     searchButton.setAttribute("aria-label", "Rechercher");
     searchButton.setAttribute("type", "button");
-    searchButtonIcon.setAttribute("src", "/assets/svg/search-icon-grey.svg");
+    searchButtonIcon.setAttribute("src", "assets/svg/search-icon-grey.svg");
     searchButtonIcon.setAttribute("alt", "");
 
     this.listContainer = searchResultsList;
@@ -193,7 +193,7 @@ export default class DropdownMenu {
       removeSelectedElementButton.setAttribute("type", "button");
       removeSelectedElementIcon.setAttribute(
         "src",
-        "/assets/svg/close-filled-icon.svg"
+        "assets/svg/close-filled-icon.svg"
       );
       removeSelectedElementIcon.setAttribute("alt", "");
       removeSelectedElementButton.classList.add(

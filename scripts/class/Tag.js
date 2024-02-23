@@ -13,7 +13,7 @@ export class Tag {
 
     container.classList.add("tag");
     container.setAttribute("id", `${this.name}-tag`);
-    removeTagButtonIcon.setAttribute("src", "/assets/svg/close-icon.svg");
+    removeTagButtonIcon.setAttribute("src", "assets/svg/close-icon.svg");
     tagName.textContent = ucFirst(this.name);
 
     removeTagButton.addEventListener("click", () => {

@@ -64,7 +64,7 @@ export default class Recipe {
 
     recipeCard.setAttribute("id", this.id);
     recipeIngredientsSubtitle.setAttribute("id", "recipe-subtitle-ingredients");
-    recipeImg.setAttribute("src", `../../../assets/recipes/${this.image}`);
+    recipeImg.setAttribute("src", `assets/recipes/${this.image}`);
     recipeImg.setAttribute("alt", this.name);
 
     recipeTime.textContent = `${this.time}min`;
